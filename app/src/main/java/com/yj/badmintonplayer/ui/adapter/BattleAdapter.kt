@@ -6,9 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yj.badmintonplayer.R
 import com.yj.badmintonplayer.databinding.AdapterBattleBinding
-import com.yj.badmintonplayer.databinding.AdapterCreateRoomPlayerBinding
 import com.yj.badmintonplayer.ui.bean.GameBean
-import com.yj.badmintonplayer.ui.bean.PlayerBean
+import com.yj.badmintonplayer.ui.dialog.NumberDialog
 
 class BattleAdapter(val dataList: List<GameBean>) :
     RecyclerView.Adapter<BattleAdapter.ViewHolder>() {
@@ -33,6 +32,41 @@ class BattleAdapter(val dataList: List<GameBean>) :
             if (gameBean.id1Point > gameBean.id2Point) View.VISIBLE else View.INVISIBLE
         holder.mBinding.tvPlayer2Win.visibility =
             if (gameBean.id2Point > gameBean.id1Point) View.VISIBLE else View.INVISIBLE
+
+        holder.mBinding.tvPlayer1Point.setOnClickListener {
+            val numberDialog = NumberDialog(
+                holder.mBinding.tvPlayer1Point.context,
+                androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog,
+                getNumberPickerDefaultPoint(gameBean.id1Point), "得分"
+            )
+            numberDialog.mConfirmListener = object : NumberDialog.IConfirmListener {
+                override fun onConFirm(value: Int) {
+                    gameBean.id1Point = value
+                    notifyDataSetChanged()
+                }
+            }
+            numberDialog.show()
+        }
+
+        holder.mBinding.tvPlayer2Point.setOnClickListener {
+            val numberDialog = NumberDialog(
+                holder.mBinding.tvPlayer2Point.context,
+                androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog,
+                getNumberPickerDefaultPoint(gameBean.id2Point), "得分"
+            )
+            numberDialog.mConfirmListener = object : NumberDialog.IConfirmListener {
+                override fun onConFirm(value: Int) {
+                    gameBean.id2Point = value
+                    notifyDataSetChanged()
+                }
+            }
+            numberDialog.show()
+        }
+    }
+
+    // 获取默认展示得分
+    private fun getNumberPickerDefaultPoint(point: Int): Int {
+        return if (point == 0) 21 else point
     }
 
 

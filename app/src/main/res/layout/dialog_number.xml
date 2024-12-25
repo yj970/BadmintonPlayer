@@ -6,7 +6,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="50dp">
 
         <TextView
             android:id="@+id/tv_close"
@@ -26,27 +26,26 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="5dp"
-            android:text="对战表"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_complete"
+            android:id="@+id/tv_confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
+            android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="11dp"
             android:padding="5dp"
-            android:text="完赛"
+            android:text="确定"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_battle"
+    <NumberPicker
+        android:id="@+id/numberpicker"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

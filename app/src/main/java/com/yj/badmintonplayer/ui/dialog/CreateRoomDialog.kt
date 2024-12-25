@@ -17,7 +17,8 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
     private var players = ArrayList<PlayerBean>()
     private lateinit var adapetr: CreateRoomPlayerAdapter
     private var count = 0
-     var iConfirmListener : IConfirmListener? = null
+    var iConfirmListener: IConfirmListener? = null
+    private var round = 2;
 
     private enum class Model {
         SINGLE_NORMAL
@@ -53,6 +54,25 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
                 adapetr.notifyDataSetChanged()
             }
         }
+        mBinding.tvRound.setOnClickListener {
+            showNumberPicker()
+        }
+    }
+
+    // 展示选择轮数弹窗
+    private fun showNumberPicker() {
+        val numberDialog = NumberDialog(
+            context,
+            androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog,
+            round, "循环轮数"
+        )
+        numberDialog.mConfirmListener = object : NumberDialog.IConfirmListener {
+            override fun onConFirm(value: Int) {
+                round = value
+                mBinding.tvRound.text = round.toString()
+            }
+        }
+        numberDialog.show()
     }
 
     private fun startGame() {
@@ -73,7 +93,6 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
         // 进行排序，尽量不连续出战
         var tempGameBean: GameBean? = null
         // 轮数
-        val round = 2;
         for (i in 1..round) {
             val originList = CopyOnWriteArrayList<GameBean>()
             for (p1 in players) {
@@ -158,6 +177,8 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
         // 初始化房间名
         val randomNum = (100000..999999).random()
         mBinding.etRoomName.hint = randomNum.toString()
+        // 轮次
+        mBinding.tvRound.text = round.toString()
         // 人员列表
         adapetr = CreateRoomPlayerAdapter(players)
         mBinding.rvPlayer.layoutManager = LinearLayoutManager(context)

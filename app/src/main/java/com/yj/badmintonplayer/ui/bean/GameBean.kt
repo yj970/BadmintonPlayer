@@ -61,6 +61,10 @@ class GameBean(val id1: String, val id2: String, val name1: String, val name2: S
         return 0
     }
 
+    fun samePointTip(): String {
+        return name1+"VS"+name2+"的比分相同，请修改比赛完成比赛！"
+    }
+
     companion object CREATOR : Parcelable.Creator<GameBean> {
         override fun createFromParcel(parcel: Parcel): GameBean {
             return GameBean(parcel)
