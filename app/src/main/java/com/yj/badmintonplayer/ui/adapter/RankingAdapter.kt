@@ -27,7 +27,7 @@ class RankingAdapter(val dataList: List<PlayerBean>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val player = dataList.get(position)
         holder.mBinding.tvRank.text = "第"+(position+1)+"名"
-        holder.mBinding.tvPlayerName.text = player.nickname
+        holder.mBinding.tvPlayerName.text = player.getName()
         holder.mBinding.tvWinCount.text = "胜场:" + player.winCount
         holder.mBinding.tvLoseCount.text = "负场:" + player.loseCount
     }

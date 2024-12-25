@@ -33,15 +33,15 @@ class NumberDialog(context: Context, themeResId: Int, val default: Int, val titl
 
     private fun initView() {
         mBinding.tvTitle.text = title
-        mBinding.numberpicker.minValue = 0
-        mBinding.numberpicker.maxValue = 30
-        mBinding.numberpicker.value = default
+
+        mBinding.wheelView.setRange(0, 30 ,1)
+        mBinding.wheelView.setDefaultValue(default)
     }
 
     private fun setListener() {
-        mBinding.tvClose.setOnClickListener { dismiss() }
-        mBinding.tvConfirm.setOnClickListener {
-            mConfirmListener?.onConFirm(mBinding.numberpicker.value)
+        mBinding.ivClose.setOnClickListener { dismiss() }
+        mBinding.ivConfirm.setOnClickListener {
+            mConfirmListener?.onConFirm(mBinding.wheelView.getCurrentItem())
             dismiss()
         }
     }

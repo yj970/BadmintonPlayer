@@ -26,8 +26,9 @@ class CreateRoomPlayerAdapter(val dataList: List<PlayerBean>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val player = dataList.get(position)
-        holder.mBinding.etNickName.setText(player.nickname)
-        holder.mBinding.etNickName.addTextChangedListener(object : TextWatcher{
+        holder.mBinding.etNickName.hint = player.hintNickname
+        holder.mBinding.etNickName.setText(player.nickName)
+        holder.mBinding.etNickName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -35,7 +36,7 @@ class CreateRoomPlayerAdapter(val dataList: List<PlayerBean>) :
             }
 
             override fun afterTextChanged(s: Editable?) {
-                player.nickname = s.toString()
+                player.nickName = s.toString()
             }
         })
         holder.mBinding.tvDelete.setOnClickListener {
@@ -48,7 +49,7 @@ class CreateRoomPlayerAdapter(val dataList: List<PlayerBean>) :
         val mBinding = AdapterCreateRoomPlayerBinding.bind(itemView)
     }
 
-     interface IClickDeleteListener {
+    interface IClickDeleteListener {
         fun onDelete(playerBean: PlayerBean);
     }
 

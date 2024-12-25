@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,17 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="50dp">
 
-        <TextView
-            android:id="@+id/tv_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="11dp"
-            android:padding="5dp"
-            android:text="关闭"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:padding="10dp"
+            android:src="@mipmap/icon_close" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -30,22 +28,32 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/iv_confirm"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="11dp"
-            android:padding="5dp"
-            android:text="确定"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:padding="10dp"
+            android:src="@mipmap/icon_ok" />
     </FrameLayout>
 
-    <NumberPicker
-        android:id="@+id/numberpicker"
+    <com.github.gzuliyujiang.wheelview.widget.NumberWheelView
+        android:id="@+id/wheel_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        app:wheel_atmosphericEnabled="true"
+        app:wheel_curvedEnabled="true"
+        app:wheel_curvedIndicatorSpace="4dp"
+        app:wheel_curvedMaxAngle="60"
+        app:wheel_indicatorColor="@color/color_main"
+        app:wheel_itemSpace="60dp"
+        app:wheel_itemTextColor="#FF474747"
+        app:wheel_itemTextColorSelected="@color/color_main"
+        app:wheel_itemTextSize="20sp" />
 
 </LinearLayout>

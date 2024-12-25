@@ -18,7 +18,7 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
     private lateinit var adapetr: CreateRoomPlayerAdapter
     private var count = 0
     var iConfirmListener: IConfirmListener? = null
-    private var round = 2;
+    private var round = 2;// 默认2轮
 
     private enum class Model {
         SINGLE_NORMAL
@@ -43,10 +43,12 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
     }
 
     private fun setListener() {
-        mBinding.tvClose.setOnClickListener { dismiss() }
-        mBinding.tvAddPlayer.setOnClickListener { addPlayer() }
+        mBinding.ivClose.setOnClickListener { dismiss() }
+        mBinding.ivAddPlayer.setOnClickListener { addPlayer() }
         mBinding.tvStart.setOnClickListener {
-            startGame()
+            if (check()) {
+                startGame()
+            }
         }
         adapetr.iClickDeleteListener = object : CreateRoomPlayerAdapter.IClickDeleteListener {
             override fun onDelete(playerBean: PlayerBean) {
@@ -58,6 +60,28 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
             showNumberPicker()
         }
     }
+
+    // 检查数据
+    private fun check(): Boolean {
+        // 轮数必须大于1
+        if (round < 1) {
+            showTipDialog("循环轮数必须大于1")
+            return false
+        }
+        // 人数必须大于2
+        if (players.size < 2) {
+            showTipDialog("参赛选手人数必须大于2")
+            return false
+        }
+        return true;
+    }
+
+    private fun showTipDialog(tip: String) {
+        val dialog =
+            TipDialog(context, androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog, tip)
+        dialog.show()
+    }
+
 
     // 展示选择轮数弹窗
     private fun showNumberPicker() {
@@ -100,7 +124,7 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
                     if (p1 == p2) {
                         continue
                     }
-                    val gameBean = GameBean(p1.id, p2.id, p1.nickname, p2.nickname)
+                    val gameBean = GameBean(p1.id, p2.id, p1.getName(), p2.getName())
                     if (originList.contains(gameBean)) {
                         continue
                     }
