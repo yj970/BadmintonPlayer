@@ -136,10 +136,6 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
 
             var resultList = CopyOnWriteArrayList<GameBean>()
             while (originList.size > 0) {
-                // 找到上一个对战名单
-                if (resultList.size > 0) {
-                    tempGameBean = resultList[resultList.size - 1]
-                }
                 // 上次没有对战，随机取1个
                 if (tempGameBean == null) {
                     val index = (0..<originList.size).random()
@@ -182,6 +178,10 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
                         resultList.add(g)
                         break
                     }
+                }
+                // 设置上一个对战名单
+                if (resultList.size > 0) {
+                    tempGameBean = resultList[resultList.size - 1]
                 }
             }
             finalList.addAll(resultList)
