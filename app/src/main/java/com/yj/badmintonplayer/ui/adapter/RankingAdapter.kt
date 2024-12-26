@@ -26,10 +26,31 @@ class RankingAdapter(val dataList: List<PlayerBean>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val player = dataList.get(position)
-        holder.mBinding.tvRank.text = "第"+(position+1)+"名"
+        val rank = player.rank
+        holder.mBinding.tvRank.visibility = if (rank > 3) View.VISIBLE else View.GONE
+        holder.mBinding.ivRank.visibility = if (rank > 3) View.GONE else View.VISIBLE
+        holder.mBinding.tvRank.text = "第" + rank + "名"
+        holder.mBinding.ivRank.setImageResource(getRankImage(rank))
         holder.mBinding.tvPlayerName.text = player.getName()
         holder.mBinding.tvWinCount.text = "胜场:" + player.winCount
         holder.mBinding.tvLoseCount.text = "负场:" + player.loseCount
+    }
+
+    private fun getRankImage(rank: Int): Int {
+        when (rank) {
+            1 -> {
+                return R.mipmap.icon_rank_1
+            }
+
+            2 -> {
+                return R.mipmap.icon_rank_2
+            }
+
+            3 -> {
+                return R.mipmap.icon_rank_3
+            }
+        }
+        return 0
     }
 
 

@@ -24,13 +24,14 @@ class BattleAdapter(val dataList: List<GameBean>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val gameBean = dataList.get(position)
+        holder.mBinding.tvSession.text = "第" + (position + 1) + "场"
         holder.mBinding.tvPlayer1Name.text = gameBean.name1
         holder.mBinding.tvPlayer1Point.text = gameBean.id1Point.toString()
         holder.mBinding.tvPlayer2Name.text = gameBean.name2
         holder.mBinding.tvPlayer2Point.text = gameBean.id2Point.toString()
-        holder.mBinding.tvPlayer1Win.visibility =
+        holder.mBinding.ivPlayer1Win.visibility =
             if (gameBean.id1Point > gameBean.id2Point) View.VISIBLE else View.INVISIBLE
-        holder.mBinding.tvPlayer2Win.visibility =
+        holder.mBinding.ivPlayer2Win.visibility =
             if (gameBean.id2Point > gameBean.id1Point) View.VISIBLE else View.INVISIBLE
 
         holder.mBinding.tvPlayer1Point.setOnClickListener {

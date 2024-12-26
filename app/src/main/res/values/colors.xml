@@ -12,4 +12,5 @@
     <color name="color_main">#89CFF0</color>
     <color name="color_second">#FF7F50</color>
     <color name="color_third">#8EAB12</color>
+    <color name="color_main_transparent">#8089CFF0</color>
 </resources>

@@ -1,13 +1,17 @@
 package com.yj.badmintonplayer.ui
 
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.yj.badmintonplayer.databinding.ActivityBattleBinding
 import com.yj.badmintonplayer.ui.adapter.BattleAdapter
 import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.dialog.TipDialog
+import com.yj.badmintonplayer.ui.utils.SizeUtils
 
 class BattleActivity : FragmentActivity() {
     lateinit var mBinding: ActivityBattleBinding
@@ -44,9 +48,10 @@ class BattleActivity : FragmentActivity() {
 
     // 判断比分是否符合规则:不能相等
     private fun checkData(): Boolean {
-        for (game in games) {
+        for (i in 0 until games.size) {
+            val game = games[i]
             if (game.id1Point == game.id2Point) {
-                showTipDialog(game.samePointTip())
+                showTipDialog("第" + (i + 1) + "场比赛比分相同，请修改！")
                 return false
             }
         }
@@ -62,6 +67,16 @@ class BattleActivity : FragmentActivity() {
         games = intent.getParcelableArrayListExtra("games")!!
         var battleAdapter = BattleAdapter(games)
         mBinding.rvBattle.layoutManager = LinearLayoutManager(this)
+        mBinding.rvBattle.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+                outRect.set(0, SizeUtils.dp2px(5f), 0, SizeUtils.dp2px(5f))
+            }
+        })
         mBinding.rvBattle.adapter = battleAdapter
     }
 }

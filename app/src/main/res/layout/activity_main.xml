@@ -15,9 +15,9 @@
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/color_third"
+        android:background="@color/color_main_transparent"
         android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-        app:tabIndicatorColor="@color/color_third"
+        app:tabIndicatorColor="@color/color_main_transparent"
         app:tabSelectedTextColor="@color/white"
         app:tabTextColor="#666" />
 

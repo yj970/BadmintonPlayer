@@ -1,12 +1,18 @@
 package com.yj.badmintonplayer.ui
 
+import android.graphics.Rect
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.yj.badmintonplayer.databinding.ActivityStatisticsBinding
 import com.yj.badmintonplayer.ui.adapter.RankingAdapter
 import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.bean.PlayerBean
+import com.yj.badmintonplayer.ui.utils.SizeUtils
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class StatisticsActivity : FragmentActivity() {
     lateinit var mBinding: ActivityStatisticsBinding
@@ -25,7 +31,18 @@ class StatisticsActivity : FragmentActivity() {
     private fun initView() {
         games = intent.getParcelableArrayListExtra("games")!!
 
+        initTitleUI()
         initRanking()
+    }
+
+    private fun initTitleUI() {
+        // 获取当前日期
+        val currentDate = LocalDate.now()
+        // 定义日期格式化器
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        // 将日期按照指定格式进行格式化
+        val formattedDate = currentDate.format(formatter)
+        mBinding.tvTitle.text = formattedDate
     }
 
     // 排名
@@ -65,9 +82,31 @@ class StatisticsActivity : FragmentActivity() {
                 it.winCount
             }
         )
+        // 排名
+        var rank = 1
+        for (i in 0 until players.size) {
+            val playerNow = players[i]
+            val playerPre = if (i > 0) players[i - 1] else null
+            if (playerPre != null) {
+                rank = if (playerPre.winCount > playerNow.winCount) ++rank else rank
+            }
+            playerNow.rank = rank
+        }
+
+
         // 展示UI
         val adapetr = RankingAdapter(players)
         mBinding.rvRanking.layoutManager = LinearLayoutManager(this)
+        mBinding.rvRanking.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+                outRect.set(0, SizeUtils.dp2px(5f), 0, SizeUtils.dp2px(5f))
+            }
+        })
         mBinding.rvRanking.adapter = adapetr
     }
 
@@ -93,6 +132,6 @@ class StatisticsActivity : FragmentActivity() {
 
 
     private fun initListener() {
-
+        mBinding.tvClose.setOnClickListener { finish() }
     }
 }
