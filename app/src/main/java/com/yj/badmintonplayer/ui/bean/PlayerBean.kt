@@ -27,4 +27,7 @@ class PlayerBean(var id: String, var hintNickname: String) {
 
     // 总失分
     var losePoint = 0;
+
+    // 比赛
+    var games = ArrayList<GameBean>()
 }

@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.yj.badmintonplayer.databinding.ActivityStatisticsBinding
+import com.yj.badmintonplayer.ui.adapter.PlayerDataStatisticsAdapter
 import com.yj.badmintonplayer.ui.adapter.RankingAdapter
 import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.bean.PlayerBean
@@ -70,9 +71,9 @@ class StatisticsActivity : FragmentActivity() {
             val player1win = game.id1Point > game.id2Point
             // 得分
             player1!!.winPoint += game.id1Point
-            player1!!.loseCount += game.id2Point
+            player1!!.losePoint += game.id2Point
             player2!!.winPoint += game.id2Point
-            player2!!.loseCount += game.id1Point
+            player2!!.losePoint += game.id1Point
             // 胜场
             if (player1win) {
                 player1!!.winCount += 1
@@ -81,6 +82,9 @@ class StatisticsActivity : FragmentActivity() {
                 player1!!.loseCount += 1
                 player2!!.winCount += 1
             }
+            // 比赛
+            player1!!.games.add(game)
+            player2!!.games.add(game)
         }
         // 1、胜场降序 2、总得分降序 3、总失分升序
         players.sortWith(
@@ -118,6 +122,21 @@ class StatisticsActivity : FragmentActivity() {
             }
         })
         mBinding.rvRanking.adapter = adapetr
+
+        // 展示UI
+        val adapetr2 = PlayerDataStatisticsAdapter(players)
+        mBinding.rvData.layoutManager = LinearLayoutManager(this)
+        mBinding.rvData.addItemDecoration(object : RecyclerView.ItemDecoration() {
+            override fun getItemOffsets(
+                outRect: Rect,
+                view: View,
+                parent: RecyclerView,
+                state: RecyclerView.State
+            ) {
+                outRect.set(0, SizeUtils.dp2px(5f), 0, SizeUtils.dp2px(20f))
+            }
+        })
+        mBinding.rvData.adapter = adapetr2
     }
 
     // 获取选手
