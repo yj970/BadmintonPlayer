@@ -68,6 +68,12 @@ class StatisticsActivity : FragmentActivity() {
             val player1 = getPlayer(id1, players)
             val player2 = getPlayer(id2, players)
             val player1win = game.id1Point > game.id2Point
+            // 得分
+            player1!!.winPoint += game.id1Point
+            player1!!.loseCount += game.id2Point
+            player2!!.winPoint += game.id2Point
+            player2!!.loseCount += game.id1Point
+            // 胜场
             if (player1win) {
                 player1!!.winCount += 1
                 player2!!.loseCount += 1
@@ -76,10 +82,14 @@ class StatisticsActivity : FragmentActivity() {
                 player2!!.winCount += 1
             }
         }
-        // 根据胜场排位,降序
+        // 1、胜场降序 2、总得分降序 3、总失分升序
         players.sortWith(
-            compareByDescending {
+            compareByDescending<PlayerBean> {
                 it.winCount
+            }.thenByDescending {
+                it.winPoint
+            }.thenBy {
+                it.losePoint
             }
         )
         // 排名

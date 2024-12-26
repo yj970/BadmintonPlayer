@@ -8,8 +8,7 @@ import com.yj.badmintonplayer.databinding.ActivityMainBinding
 import com.yj.badmintonplayer.ui.fragment.HomeFragment
 import com.yj.badmintonplayer.ui.fragment.MineFragment
 import com.yj.badmintonplayer.ui.utils.BaseFragmentPagerAdapter
-import java.util.ArrayList
-import java.util.Random
+import kotlin.collections.ArrayList
 
 class MainActivity : FragmentActivity() {
 

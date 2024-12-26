@@ -19,6 +19,12 @@ class PlayerBean(var id: String, var hintNickname: String) {
     // 败场
     var loseCount = 0
 
-    // 排名
+    // 排名（从1开始）
     var rank = 0;
+
+    // 总得分
+    var winPoint = 0
+
+    // 总失分
+    var losePoint = 0;
 }
