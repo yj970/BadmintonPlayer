@@ -11,7 +11,7 @@ import com.yj.badmintonplayer.ui.dialog.NumberDialog
 
 class BattleAdapter(val dataList: List<PlayerBattleBean>) :
     RecyclerView.Adapter<BattleAdapter.ViewHolder>() {
-
+        lateinit var mPointChangeConfirmListener : IPointChangeConfirmListener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.adapter_battle, parent, false)
@@ -44,6 +44,7 @@ class BattleAdapter(val dataList: List<PlayerBattleBean>) :
                 override fun onConFirm(value: Int) {
                     gameBean.id1Point = value
                     notifyDataSetChanged()
+                    mPointChangeConfirmListener.onPointChangeConfirm()
                 }
             }
             numberDialog.show()
@@ -59,6 +60,7 @@ class BattleAdapter(val dataList: List<PlayerBattleBean>) :
                 override fun onConFirm(value: Int) {
                     gameBean.id2Point = value
                     notifyDataSetChanged()
+                    mPointChangeConfirmListener.onPointChangeConfirm()
                 }
             }
             numberDialog.show()
@@ -73,6 +75,10 @@ class BattleAdapter(val dataList: List<PlayerBattleBean>) :
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val mBinding = AdapterBattleBinding.bind(itemView)
+    }
+
+     interface IPointChangeConfirmListener{
+        fun onPointChangeConfirm()
     }
 
 

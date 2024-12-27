@@ -29,9 +29,7 @@ class PlayerBattleActivity : FragmentActivity() {
 
         initView()
         setListener()
-
-        // todo
-        add()
+        addOrUpdate()
     }
 
     private fun setListener() {
@@ -79,6 +77,11 @@ class PlayerBattleActivity : FragmentActivity() {
 
     private fun initPlayerBattleListUI() {
         var battleAdapter = BattleAdapter(game.playerBattleBeans)
+        battleAdapter.mPointChangeConfirmListener = object :BattleAdapter.IPointChangeConfirmListener{
+            override fun onPointChangeConfirm() {
+                addOrUpdate()
+            }
+        }
         mBinding.rvBattle.layoutManager = LinearLayoutManager(this)
         mBinding.rvBattle.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
@@ -97,7 +100,8 @@ class PlayerBattleActivity : FragmentActivity() {
         mBinding.tvTitle.text = game.getTitle()
     }
 
-    private fun add() {
-        ObjectBox.store.boxFor(GameBean::class.java).put(game)
+    private fun addOrUpdate() {
+        val long = ObjectBox.store.boxFor(GameBean::class.java).put(game)
+        println("addOrUpdate "+long)
     }
 }
