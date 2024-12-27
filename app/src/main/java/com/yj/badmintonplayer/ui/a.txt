@@ -1,1 +1,2 @@
-java.util.ConcurrentModificationException
+C:\Users\yangjie\Documents\XPGITHUB\BadmintonPlayer\BadmintonPlayer\app\build\tmp\kapt3\stubs\debug\com\yj\badmintonplayer\ui\bean\GameBean.java:5: 错误: [ObjectBox] No-argument or all-properties constructor is required for @Entity class. https://docs.objectbox.io/getting-started#define-entity-classes
+public final class GameBean implements android.os.Parcelable {

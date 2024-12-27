@@ -2,24 +2,37 @@ package com.yj.badmintonplayer.ui.bean
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.yj.badmintonplayer.ui.utils.JsonUtil
 import com.yj.badmintonplayer.ui.utils.Utils
+import io.objectbox.annotation.Convert
+import io.objectbox.annotation.Entity
+import io.objectbox.annotation.Id
+import io.objectbox.converter.PropertyConverter
 
+@Entity
 class GameBean(
-    val id: String,
+    @Id
+    var id: Long,
+    val gameId: String,
     val roomName: String,
     val createTime: Long,
+    @Convert(converter = PlayerBattlesBeansConverter::class, dbType = String::class)
     val playerBattleBeans: ArrayList<PlayerBattleBean>
 ) : Parcelable {
+
+
     constructor(parcel: Parcel) : this(
+        parcel.readLong(),
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readLong(),
         parcel.createTypedArrayList(PlayerBattleBean.CREATOR) as ArrayList<PlayerBattleBean>
-    ) {
-    }
+    )
+
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id)
+        parcel.writeLong(id)
+        parcel.writeString(gameId)
         parcel.writeString(roomName)
         parcel.writeLong(createTime)
         parcel.writeTypedList(playerBattleBeans)
@@ -36,6 +49,16 @@ class GameBean(
 
         override fun newArray(size: Int): Array<GameBean?> {
             return arrayOfNulls(size)
+        }
+    }
+
+    class PlayerBattlesBeansConverter : PropertyConverter<ArrayList<PlayerBattleBean>, String> {
+        override fun convertToEntityProperty(databaseValue: String): ArrayList<PlayerBattleBean> {
+            return JsonUtil.fromJsonList<PlayerBattleBean>(databaseValue)
+        }
+
+        override fun convertToDatabaseValue(entityProperty: ArrayList<PlayerBattleBean>): String {
+            return JsonUtil.listToJson(entityProperty)
         }
     }
 

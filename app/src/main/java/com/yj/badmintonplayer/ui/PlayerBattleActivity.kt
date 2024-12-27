@@ -10,9 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yj.badmintonplayer.databinding.ActivityBattleBinding
 import com.yj.badmintonplayer.ui.adapter.BattleAdapter
 import com.yj.badmintonplayer.ui.bean.GameBean
+import com.yj.badmintonplayer.ui.bean.MyObjectBox
+import com.yj.badmintonplayer.ui.db.ObjectBox
 import com.yj.badmintonplayer.ui.dialog.TipDialog
 import com.yj.badmintonplayer.ui.utils.SizeUtils
-import com.yj.badmintonplayer.ui.utils.Utils
+import io.objectbox.BoxStore
 
 class PlayerBattleActivity : FragmentActivity() {
     lateinit var mBinding: ActivityBattleBinding
@@ -27,6 +29,9 @@ class PlayerBattleActivity : FragmentActivity() {
 
         initView()
         setListener()
+
+        // todo
+        add()
     }
 
     private fun setListener() {
@@ -90,5 +95,9 @@ class PlayerBattleActivity : FragmentActivity() {
 
     private fun initTitleUI() {
         mBinding.tvTitle.text = game.getTitle()
+    }
+
+    private fun add() {
+        ObjectBox.store.boxFor(GameBean::class.java).put(game)
     }
 }

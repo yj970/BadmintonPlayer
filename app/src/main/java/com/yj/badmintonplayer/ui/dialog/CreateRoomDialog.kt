@@ -111,11 +111,19 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
             }
         }
         // 启动对战页面
-        iConfirmListener?.onConfirm(GameBean(UUID.randomUUID().toString(), getRoomName(), System.currentTimeMillis(), finalList))
+        iConfirmListener?.onConfirm(
+            GameBean(
+                0,
+                UUID.randomUUID().toString(),
+                getRoomName(),
+                System.currentTimeMillis(),
+                finalList
+            )
+        )
     }
 
     // 获取房名
-    private fun getRoomName():String{
+    private fun getRoomName(): String {
         val text = mBinding.etRoomName.text.toString()
         return if (text.isEmpty()) mBinding.etRoomName.hint.toString() else text
     }
@@ -132,7 +140,8 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
                     if (p1 == p2) {
                         continue
                     }
-                    val playerBattleBean = PlayerBattleBean(p1.id, p2.id, p1.getName(), p2.getName())
+                    val playerBattleBean =
+                        PlayerBattleBean(p1.id, p2.id, p1.getName(), p2.getName())
                     if (originList.contains(playerBattleBean)) {
                         continue
                     }

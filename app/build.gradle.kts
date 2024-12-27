@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("io.objectbox") // Apply last
 }
 
 android {
@@ -73,4 +74,9 @@ dependencies {
 
     implementation ("com.github.gzu-liyujiang.AndroidPicker:Common:4.1.14")
     implementation ("com.github.gzu-liyujiang.AndroidPicker:WheelPicker:4.1.14")
+
+    implementation("io.objectbox:objectbox-kotlin:3.5.1")
+    implementation ("com.google.code.gson:gson:2.8.8")
+
+
 }
