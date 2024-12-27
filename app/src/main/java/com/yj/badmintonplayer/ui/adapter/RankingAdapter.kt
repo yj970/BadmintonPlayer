@@ -5,11 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yj.badmintonplayer.R
-import com.yj.badmintonplayer.databinding.AdapterBattleBinding
 import com.yj.badmintonplayer.databinding.AdapterRankingBinding
-import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.bean.PlayerBean
-import com.yj.badmintonplayer.ui.dialog.NumberDialog
 
 class RankingAdapter(val dataList: List<PlayerBean>) :
     RecyclerView.Adapter<RankingAdapter.ViewHolder>() {

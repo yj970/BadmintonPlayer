@@ -5,12 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.yj.badmintonplayer.R
-import com.yj.badmintonplayer.databinding.AdapterBattleBinding
 import com.yj.badmintonplayer.databinding.AdapterPlayerBattleBinding
-import com.yj.badmintonplayer.ui.bean.GameBean
-import com.yj.badmintonplayer.ui.dialog.NumberDialog
+import com.yj.badmintonplayer.ui.bean.PlayerBattleBean
 
-class PlayerBattleAdapter(val dataList: List<GameBean>, val leftId: String) :
+class PlayerBattleAdapter(val dataList: List<PlayerBattleBean>, val leftId: String) :
     RecyclerView.Adapter<PlayerBattleAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

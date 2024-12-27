@@ -10,6 +10,7 @@ import com.yj.badmintonplayer.databinding.ActivityStatisticsBinding
 import com.yj.badmintonplayer.ui.adapter.PlayerDataStatisticsAdapter
 import com.yj.badmintonplayer.ui.adapter.RankingAdapter
 import com.yj.badmintonplayer.ui.bean.GameBean
+import com.yj.badmintonplayer.ui.bean.PlayerBattleBean
 import com.yj.badmintonplayer.ui.bean.PlayerBean
 import com.yj.badmintonplayer.ui.utils.SizeUtils
 import java.time.LocalDate
@@ -17,7 +18,7 @@ import java.time.format.DateTimeFormatter
 
 class StatisticsActivity : FragmentActivity() {
     lateinit var mBinding: ActivityStatisticsBinding
-    lateinit var games: ArrayList<GameBean>
+    lateinit var game: GameBean
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,27 +31,21 @@ class StatisticsActivity : FragmentActivity() {
     }
 
     private fun initView() {
-        games = intent.getParcelableArrayListExtra("games")!!
+        game = intent.getParcelableExtra("gameBean")!!
 
         initTitleUI()
         initRanking()
     }
 
     private fun initTitleUI() {
-        // 获取当前日期
-        val currentDate = LocalDate.now()
-        // 定义日期格式化器
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        // 将日期按照指定格式进行格式化
-        val formattedDate = currentDate.format(formatter)
-        mBinding.tvTitle.text = formattedDate
+        mBinding.tvTitle.text = game.getTitle()
     }
 
     // 排名
     private fun initRanking() {
         // 先创建选手
         var players = ArrayList<PlayerBean>()
-        for (game in games) {
+        for (game in game.playerBattleBeans) {
             val id1 = game.id1
             val id2 = game.id2
             val existId1 = isExistPlayer(id1, players)
@@ -63,7 +58,7 @@ class StatisticsActivity : FragmentActivity() {
             }
         }
         // 统计胜负场
-        for (game in games) {
+        for (game in game.playerBattleBeans) {
             val id1 = game.id1
             val id2 = game.id2
             val player1 = getPlayer(id1, players)

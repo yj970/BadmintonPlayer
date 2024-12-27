@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.yj.badmintonplayer.databinding.DialogCreateRoomBinding
 import com.yj.badmintonplayer.ui.adapter.CreateRoomPlayerAdapter
 import com.yj.badmintonplayer.ui.bean.GameBean
+import com.yj.badmintonplayer.ui.bean.PlayerBattleBean
 import com.yj.badmintonplayer.ui.bean.PlayerBean
 import com.yj.badmintonplayer.ui.utils.ScreenUtils
 import com.yj.badmintonplayer.ui.utils.SizeUtils
+import java.util.UUID
 import java.util.concurrent.CopyOnWriteArrayList
 
 class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
@@ -102,45 +104,51 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
     private fun startGame() {
         dismiss()
         // 根据模式，安排对战表
-        var finalList = ArrayList<GameBean>();
+        var finalList = ArrayList<PlayerBattleBean>();
         when (model) {
             Model.SINGLE_NORMAL -> {
                 finalList = getSingleNormalGames()
             }
         }
         // 启动对战页面
-        iConfirmListener?.onConfirm(finalList)
+        iConfirmListener?.onConfirm(GameBean(UUID.randomUUID().toString(), getRoomName(), System.currentTimeMillis(), finalList))
     }
 
-    private fun getSingleNormalGames(): ArrayList<GameBean> {
-        var finalList = ArrayList<GameBean>()
+    // 获取房名
+    private fun getRoomName():String{
+        val text = mBinding.etRoomName.text.toString()
+        return if (text.isEmpty()) mBinding.etRoomName.hint.toString() else text
+    }
+
+    private fun getSingleNormalGames(): ArrayList<PlayerBattleBean> {
+        var finalList = ArrayList<PlayerBattleBean>()
         // 进行排序，尽量不连续出战
-        var tempGameBean: GameBean? = null
+        var tempPlayerBattleBean: PlayerBattleBean? = null
         // 轮数
         for (i in 1..round) {
-            val originList = CopyOnWriteArrayList<GameBean>()
+            val originList = CopyOnWriteArrayList<PlayerBattleBean>()
             for (p1 in players) {
                 for (p2 in players) {
                     if (p1 == p2) {
                         continue
                     }
-                    val gameBean = GameBean(p1.id, p2.id, p1.getName(), p2.getName())
-                    if (originList.contains(gameBean)) {
+                    val playerBattleBean = PlayerBattleBean(p1.id, p2.id, p1.getName(), p2.getName())
+                    if (originList.contains(playerBattleBean)) {
                         continue
                     }
-                    originList.add(gameBean)
+                    originList.add(playerBattleBean)
                 }
             }
             // 打断顺序
             originList.shuffle();
 
-            var resultList = CopyOnWriteArrayList<GameBean>()
+            var resultList = CopyOnWriteArrayList<PlayerBattleBean>()
             while (originList.size > 0) {
                 // 上次没有对战，随机取1个
-                if (tempGameBean == null) {
+                if (tempPlayerBattleBean == null) {
                     val index = (0..<originList.size).random()
                     val g = originList[index]
-                    tempGameBean = g
+                    tempPlayerBattleBean = g
                     originList.remove(g)
                     resultList.add(g)
                 }
@@ -148,7 +156,7 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
                 var find = false
                 // 完全不匹配
                 for (g in originList) {
-                    if (tempGameBean?.id1 != g.id1 && tempGameBean?.id1 != g.id2 && tempGameBean?.id2 != g.id1 && tempGameBean?.id2 != g.id2) {
+                    if (tempPlayerBattleBean?.id1 != g.id1 && tempPlayerBattleBean?.id1 != g.id2 && tempPlayerBattleBean?.id2 != g.id1 && tempPlayerBattleBean?.id2 != g.id2) {
                         originList.remove(g)
                         resultList.add(g)
                         find = true
@@ -159,8 +167,8 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
                 //  允许匹配1个
                 if (!find) {
                     for (g in originList) {
-                        if ((tempGameBean?.id1 == g.id1 && tempGameBean?.id2 != g.id2) || (tempGameBean?.id1 != g.id1 && tempGameBean?.id2 == g.id2) ||
-                            (tempGameBean?.id2 == g.id1 && tempGameBean?.id1 != g.id2) || (tempGameBean?.id2 != g.id1 && tempGameBean?.id1 == g.id2)
+                        if ((tempPlayerBattleBean?.id1 == g.id1 && tempPlayerBattleBean?.id2 != g.id2) || (tempPlayerBattleBean?.id1 != g.id1 && tempPlayerBattleBean?.id2 == g.id2) ||
+                            (tempPlayerBattleBean?.id2 == g.id1 && tempPlayerBattleBean?.id1 != g.id2) || (tempPlayerBattleBean?.id2 != g.id1 && tempPlayerBattleBean?.id1 == g.id2)
                         ) {
                             originList.remove(g)
                             resultList.add(g)
@@ -181,7 +189,7 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
                 }
                 // 设置上一个对战名单
                 if (resultList.size > 0) {
-                    tempGameBean = resultList[resultList.size - 1]
+                    tempPlayerBattleBean = resultList[resultList.size - 1]
                 }
             }
             finalList.addAll(resultList)
@@ -212,7 +220,7 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
     }
 
     interface IConfirmListener {
-        fun onConfirm(games: ArrayList<GameBean>)
+        fun onConfirm(gameBattle: GameBean)
     }
 
 }

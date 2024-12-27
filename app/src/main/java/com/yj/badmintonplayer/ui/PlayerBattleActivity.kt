@@ -12,10 +12,11 @@ import com.yj.badmintonplayer.ui.adapter.BattleAdapter
 import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.dialog.TipDialog
 import com.yj.badmintonplayer.ui.utils.SizeUtils
+import com.yj.badmintonplayer.ui.utils.Utils
 
-class BattleActivity : FragmentActivity() {
+class PlayerBattleActivity : FragmentActivity() {
     lateinit var mBinding: ActivityBattleBinding
-    lateinit var games: ArrayList<GameBean>
+    lateinit var game: GameBean
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,14 +43,14 @@ class BattleActivity : FragmentActivity() {
     // 跳转到统计页面
     private fun jumpStatistics() {
         val intent = Intent(this, StatisticsActivity::class.java)
-        intent.putExtra("games", games)
+        intent.putExtra("gameBean", game)
         startActivity(intent)
     }
 
     // 判断比分是否符合规则:不能相等
     private fun checkData(): Boolean {
-        for (i in 0 until games.size) {
-            val game = games[i]
+        for (i in 0 until game.playerBattleBeans.size) {
+            val game = game.playerBattleBeans[i]
             if (game.id1Point == game.id2Point) {
                 showTipDialog("第" + (i + 1) + "场比赛比分相同，请修改！")
                 return false
@@ -64,8 +65,15 @@ class BattleActivity : FragmentActivity() {
     }
 
     private fun initView() {
-        games = intent.getParcelableArrayListExtra("games")!!
-        var battleAdapter = BattleAdapter(games)
+        game = intent.getParcelableExtra("gameBean")!!
+        // 标题
+        initTitleUI()
+        // 列表
+        initPlayerBattleListUI()
+    }
+
+    private fun initPlayerBattleListUI() {
+        var battleAdapter = BattleAdapter(game.playerBattleBeans)
         mBinding.rvBattle.layoutManager = LinearLayoutManager(this)
         mBinding.rvBattle.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
@@ -78,5 +86,9 @@ class BattleActivity : FragmentActivity() {
             }
         })
         mBinding.rvBattle.adapter = battleAdapter
+    }
+
+    private fun initTitleUI() {
+        mBinding.tvTitle.text = game.getTitle()
     }
 }

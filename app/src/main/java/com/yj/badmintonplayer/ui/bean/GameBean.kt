@@ -2,67 +2,31 @@ package com.yj.badmintonplayer.ui.bean
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.yj.badmintonplayer.ui.utils.Utils
 
-/**
- * 对战表
- */
-class GameBean(val id1: String, val id2: String, val name1: String, val name2: String) :
-    Parcelable {
-
-    // 选手1得分
-    var id1Point: Int = 0;
-
-    // 选手2得分
-    var id2Point: Int = 0;
-
+class GameBean(
+    val id: String,
+    val roomName: String,
+    val createTime: Long,
+    val playerBattleBeans: ArrayList<PlayerBattleBean>
+) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readString()!!,
-        parcel.readString()!!
+        parcel.readLong(),
+        parcel.createTypedArrayList(PlayerBattleBean.CREATOR) as ArrayList<PlayerBattleBean>
     ) {
-        id1Point = parcel.readInt()
-        id2Point = parcel.readInt()
-    }
-
-
-    override fun toString(): String {
-        return id1 + "对战" + id2
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as GameBean
-
-        if ((id1 == other.id1 || id1 == other.id2) && (id2 == other.id1 || id2 == other.id2)) {
-            return true
-        }
-        return false
-    }
-
-    override fun hashCode(): Int {
-        var result = id1.hashCode()
-        result = 31 * result + id2.hashCode()
-        return result
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(id1)
-        parcel.writeString(id2)
-        parcel.writeString(name1)
-        parcel.writeString(name2)
-        parcel.writeInt(id1Point)
-        parcel.writeInt(id2Point)
+        parcel.writeString(id)
+        parcel.writeString(roomName)
+        parcel.writeLong(createTime)
+        parcel.writeTypedList(playerBattleBeans)
     }
 
     override fun describeContents(): Int {
         return 0
-    }
-
-    fun samePointTip(): String {
-        return name1+"VS"+name2+"的比分相同，请修改比赛完成比赛！"
     }
 
     companion object CREATOR : Parcelable.Creator<GameBean> {
@@ -75,5 +39,9 @@ class GameBean(val id1: String, val id2: String, val name1: String, val name2: S
         }
     }
 
-
+    fun getTitle(): String {
+        val roomName = roomName
+        val date = Utils.getDateFormat(createTime)
+        return "日期:" + date + "\n" + "房间名:" + roomName
+    }
 }

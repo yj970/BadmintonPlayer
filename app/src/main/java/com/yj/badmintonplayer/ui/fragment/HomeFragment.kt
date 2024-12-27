@@ -7,9 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.yj.badmintonplayer.R
 import com.yj.badmintonplayer.databinding.FragmentHomeBinding
-import com.yj.badmintonplayer.ui.BattleActivity
+import com.yj.badmintonplayer.ui.PlayerBattleActivity
 import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.dialog.CreateRoomDialog
 
@@ -53,16 +52,16 @@ class HomeFragment : Fragment() {
         val dialog =
             CreateRoomDialog(activity!!, androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog)
         dialog.iConfirmListener = object : CreateRoomDialog.IConfirmListener {
-            override fun onConfirm(games: ArrayList<GameBean>) {
-                jump2Battle(games)
+            override fun onConfirm(gameBean: GameBean) {
+                jump2Battle(gameBean)
             }
         }
         dialog.show()
     }
 
-    private fun jump2Battle(games: ArrayList<GameBean>) {
-        val intent = Intent(activity, BattleActivity::class.java)
-        intent.putExtra("games", games)
+    private fun jump2Battle(gameBean: GameBean) {
+        val intent = Intent(activity, PlayerBattleActivity::class.java)
+        intent.putExtra("gameBean", gameBean)
         activity!!.startActivity(intent)
     }
 }

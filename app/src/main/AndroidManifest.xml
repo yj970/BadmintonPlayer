@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.BattleActivity"
+            android:name=".ui.PlayerBattleActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.StatisticsActivity"

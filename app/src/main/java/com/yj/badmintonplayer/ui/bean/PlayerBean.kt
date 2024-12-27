@@ -29,5 +29,5 @@ class PlayerBean(var id: String, var hintNickname: String) {
     var losePoint = 0;
 
     // 比赛
-    var games = ArrayList<GameBean>()
+    var games = ArrayList<PlayerBattleBean>()
 }
