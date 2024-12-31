@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.yj.badmintonplayer.R
 import com.yj.badmintonplayer.databinding.FragmentMineBinding
 import com.yj.badmintonplayer.ui.PlayerBattleActivity
 import com.yj.badmintonplayer.ui.adapter.BattleAdapter
@@ -18,6 +19,7 @@ import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.bean.GameBean_
 import com.yj.badmintonplayer.ui.bean.MyObjectBox
 import com.yj.badmintonplayer.ui.db.ObjectBox
+import com.yj.badmintonplayer.ui.dialog.DeleteDialog
 import com.yj.badmintonplayer.ui.utils.SizeUtils
 import io.objectbox.BoxStore
 import io.objectbox.query.OrderFlags
@@ -63,6 +65,10 @@ class MineFragment : Fragment() {
             override fun onClick(game: GameBean) {
                 jump2Battle(game)
             }
+
+            override fun onLongClick(game: GameBean) {
+                showDeleteDialog(game)
+            }
         }
         mBinding.rvData.layoutManager = LinearLayoutManager(activity)
         mBinding.rvData.addItemDecoration(object : RecyclerView.ItemDecoration() {
@@ -81,6 +87,18 @@ class MineFragment : Fragment() {
             }
         })
         mBinding.rvData.adapter = battleAdapter
+    }
+
+    // 删除
+    private fun showDeleteDialog(game: GameBean) {
+        val dialog = DeleteDialog(activity!!)
+        dialog.mClickDeleteListener = object : DeleteDialog.IClickDeleteListener{
+            override fun onClickDelete() {
+                ObjectBox.store.boxFor(GameBean::class.java).remove(game)
+                initData()
+            }
+        }
+        dialog.show()
     }
 
     private fun initData() {

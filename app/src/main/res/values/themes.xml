@@ -3,12 +3,19 @@
 
     <style name="Theme.BadmintonPlayer" parent="android:Theme.Material.Light.NoActionBar" />
 
-    <style name="CustomNumberPickerTheme" parent="Theme.BadmintonPlayer">
-        <item name="android:numberPickerStyle">@style/CustomNumberPicker</item>
+    <style name="Dialog" parent="Theme.BadmintonPlayer">
+        <item name="android:buttonStyle">?android:attr/borderlessButtonStyle</item>
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <!-- 无标题 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+        <item name="android:backgroundDimAmount">0.7</item>
+        <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <style name="CustomNumberPicker">
-        <item name="android:divider">@drawable/custom_divider</item>
-        <item name="android:dividerHeight">1dp</item>
-    </style>
 </resources>

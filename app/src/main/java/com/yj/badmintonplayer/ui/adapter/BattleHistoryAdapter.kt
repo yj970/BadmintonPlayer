@@ -34,6 +34,10 @@ class BattleHistoryAdapter(var dataList: List<GameBean>) :
         holder.mBinding.root.setOnClickListener {
             mClickListener.onClick(gameBean)
         }
+        holder.mBinding.root.setOnLongClickListener {
+            mClickListener.onLongClick(gameBean)
+            true
+        }
     }
 
     fun setData(games: ArrayList<GameBean>) {
@@ -48,6 +52,7 @@ class BattleHistoryAdapter(var dataList: List<GameBean>) :
 
     interface IClickListener {
         fun onClick(game: GameBean)
+        fun onLongClick(game: GameBean)
     }
 
 }
