@@ -1,6 +1,9 @@
 package com.yj.badmintonplayer.ui.fragment
 
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +40,20 @@ class HomeFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setListener()
+        setVersionUI()
+    }
+
+    private fun setVersionUI() {
+        mBinding.tvVersion.text = "版本号："+getAppVersion(activity!!)
+    }
+
+    fun getAppVersion(context: Context): String {
+        try {
+            val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+            return packageInfo.versionName
+        } catch (e: PackageManager.NameNotFoundException) {
+            return "Version not found"
+        }
     }
 
     private fun setListener() {

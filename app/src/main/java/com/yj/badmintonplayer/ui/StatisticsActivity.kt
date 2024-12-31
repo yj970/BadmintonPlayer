@@ -3,17 +3,21 @@ package com.yj.badmintonplayer.ui
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.compose.ui.graphics.Color
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.yj.badmintonplayer.R
 import com.yj.badmintonplayer.databinding.ActivityStatisticsBinding
 import com.yj.badmintonplayer.ui.adapter.PlayerDataStatisticsAdapter
 import com.yj.badmintonplayer.ui.adapter.RankingAdapter
@@ -173,21 +177,43 @@ class StatisticsActivity : FragmentActivity() {
     // 保存图片到手机
     // todo 优化到子线程允许
     private fun save2Phone() {
-        val bitmap = viewToBitmap(mBinding.vBody)
+        val bitmap = getScrollViewBitmap(mBinding.vBody)
         val fileName = UUID.randomUUID().toString()
         val save = saveBitmapToGallery(this, bitmap, fileName)
         val msg = if (save) "保存成功" else "保存失败"
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 
-    fun viewToBitmap(view: View): Bitmap {
-        val bitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
+    fun getScrollViewBitmap(scrollView: NestedScrollView): Bitmap {
+        var height = 0
+        for (i in 0 until scrollView.childCount) {
+            height += scrollView.getChildAt(i).height
+        }
+        val bitmap = Bitmap.createBitmap(scrollView.width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
-        view.draw(canvas)
+        var backgroundBitmap = BitmapFactory.decodeResource(resources, R.mipmap.bg_statistics)
+        val newW = bitmap.width
+        val newH = bitmap.height * backgroundBitmap.width / bitmap.width
+        backgroundBitmap = Bitmap.createScaledBitmap(backgroundBitmap, newW, newH, true)
+        var y = 0f
+        while (y < scrollView.height) {
+            canvas.drawBitmap(backgroundBitmap, 0f, y, null)
+            y += backgroundBitmap.height
+        }
+        // 绘制背景
+        // 绘制内容
+        scrollView.draw(canvas)
         return bitmap
     }
 
-    fun saveBitmapToGallery(context: Context, bitmap: Bitmap, imageName: String): Boolean{
+//    fun viewToBitmap(view: View): Bitmap {
+//        val bitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
+//        val canvas = Canvas(bitmap)
+//        view.draw(canvas)
+//        return bitmap
+//    }
+
+    fun saveBitmapToGallery(context: Context, bitmap: Bitmap, imageName: String): Boolean {
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, imageName)
             put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
