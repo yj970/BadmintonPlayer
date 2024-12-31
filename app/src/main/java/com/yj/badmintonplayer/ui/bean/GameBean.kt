@@ -65,6 +65,12 @@ class GameBean(
     fun getTitle(): String {
         val roomName = roomName
         val date = Utils.getDateFormat(createTime)
-        return "日期:" + date + "\n" + "房间名:" + roomName
+        return "竞技日期:" + date + "\n" + "房间名:" + roomName
+    }
+
+    fun getTitle2(): String {
+        val roomName = roomName
+        val date = Utils.getDateFormat(createTime)
+        return "竞技日期:" + date + " " + "房间名:" + roomName
     }
 }

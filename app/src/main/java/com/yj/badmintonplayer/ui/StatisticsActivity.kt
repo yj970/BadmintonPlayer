@@ -1,8 +1,16 @@
 package com.yj.badmintonplayer.ui
 
+import android.content.ContentValues
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Rect
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.view.View
+import android.widget.Toast
+import androidx.compose.ui.graphics.Color
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,8 +21,10 @@ import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.bean.PlayerBattleBean
 import com.yj.badmintonplayer.ui.bean.PlayerBean
 import com.yj.badmintonplayer.ui.utils.SizeUtils
+import java.io.OutputStream
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.UUID
 
 class StatisticsActivity : FragmentActivity() {
     lateinit var mBinding: ActivityStatisticsBinding
@@ -157,5 +167,45 @@ class StatisticsActivity : FragmentActivity() {
 
     private fun initListener() {
         mBinding.tvClose.setOnClickListener { finish() }
+        mBinding.tvDownload.setOnClickListener { save2Phone() }
+    }
+
+    // 保存图片到手机
+    // todo 优化到子线程允许
+    private fun save2Phone() {
+        val bitmap = viewToBitmap(mBinding.vBody)
+        val fileName = UUID.randomUUID().toString()
+        val save = saveBitmapToGallery(this, bitmap, fileName)
+        val msg = if (save) "保存成功" else "保存失败"
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    }
+
+    fun viewToBitmap(view: View): Bitmap {
+        val bitmap = Bitmap.createBitmap(view.measuredWidth, view.measuredHeight, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        return bitmap
+    }
+
+    fun saveBitmapToGallery(context: Context, bitmap: Bitmap, imageName: String): Boolean{
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, imageName)
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+            }
+        }
+
+        val resolver = context.contentResolver
+        val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        if (uri != null) {
+            val outputStream: OutputStream? = resolver.openOutputStream(uri)
+            outputStream?.use {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, it)
+            }
+            return true
+        } else {
+            return false
+        }
     }
 }

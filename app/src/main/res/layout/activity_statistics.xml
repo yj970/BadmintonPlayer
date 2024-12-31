@@ -18,29 +18,15 @@
             android:padding="5dp"
             android:src="@mipmap/icon_close" />
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="5dp"
-            android:textColor="@color/black"
-            android:textSize="13sp"
-            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tv_complete"
-            android:layout_width="80dp"
+        <ImageView
+            android:id="@+id/tv_download"
+            android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical|end"
             android:layout_marginEnd="11dp"
-            android:background="@drawable/bg_main"
-            android:gravity="center"
-            android:text="截屏"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:visibility="gone" />
+            android:padding="5dp"
+            android:src="@mipmap/icon_download" />
 
         <View
             android:layout_width="match_parent"
@@ -51,8 +37,10 @@
 
 
     <FrameLayout
+        android:id="@+id/v_body"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <ImageView
             android:layout_width="match_parent"
@@ -70,15 +58,50 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-                <!--    排名-->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_ranking"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/bg_main_transparent" />
+                    android:background="@drawable/bg_dark_blue_transparent"
+                    android:orientation="vertical">
+                    <!--                标题-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="60dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:src="@mipmap/icon_finish" />
+
+                        <TextView
+                            android:id="@+id/tv_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="15dp"
+                            android:lineSpacingExtra="10dp"
+                            android:padding="5dp"
+                            android:textColor="@color/white"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/white" />
+                    <!--    排名-->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_ranking"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp" />
+                </LinearLayout>
                 <!--                详细数据-->
                 <TextView
                     android:layout_width="80dp"
@@ -98,7 +121,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="16dp"
-                    android:background="@drawable/bg_main_transparent" />
+                    android:background="@drawable/bg_dark_blue_transparent" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </FrameLayout>
