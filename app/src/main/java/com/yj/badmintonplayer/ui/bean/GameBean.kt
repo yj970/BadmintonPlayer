@@ -18,7 +18,7 @@ class GameBean(
     val createTime: Long,
     @Convert(converter = PlayerBattlesBeansConverter::class, dbType = String::class)
     val playerBattleBeans: ArrayList<PlayerBattleBean>
-) : Parcelable {
+) : Parcelable, Cloneable {
 
 
     constructor(parcel: Parcel) : this(
@@ -72,5 +72,9 @@ class GameBean(
         val roomName = roomName
         val date = Utils.getDateFormat(createTime)
         return "竞技日期:" + date + " " + "房间名:" + roomName
+    }
+
+    public override fun clone(): Any {
+        return super.clone()
     }
 }

@@ -12,6 +12,7 @@ import com.yj.badmintonplayer.ui.adapter.BattleAdapter
 import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.bean.MyObjectBox
 import com.yj.badmintonplayer.ui.db.ObjectBox
+import com.yj.badmintonplayer.ui.dialog.CommonDialog
 import com.yj.badmintonplayer.ui.dialog.TipDialog
 import com.yj.badmintonplayer.ui.utils.SizeUtils
 import io.objectbox.BoxStore
@@ -38,15 +39,42 @@ class PlayerBattleActivity : FragmentActivity() {
     }
 
     private fun complete() {
-        if (checkData()) {
+        if (!checkData()) {
+            return
+        }
+        if (check0Point()) {
+            val dialog = CommonDialog(this, "存在比分为0:0的局，是否继续完赛？")
+            dialog.mClickConfirmListener = object : CommonDialog.IClickConfirmListener {
+                override fun onClickConfirm() {
+                    jumpStatistics()
+                }
+            }
+            dialog.show()
+        } else {
             jumpStatistics()
         }
     }
 
+    // 检查是否有0：0比分
+    private fun check0Point(): Boolean {
+        for (i in 0 until game.playerBattleBeans.size) {
+            val game = game.playerBattleBeans[i]
+            if ((game.id1Point == game.id2Point) && (game.id1Point == 0)) {
+                return true
+            }
+        }
+        return false
+    }
+
     // 跳转到统计页面
     private fun jumpStatistics() {
+        // 克隆对象
+        val newGame = game.clone() as GameBean
+        // 过滤掉0:0的记录
+        newGame.playerBattleBeans.removeIf { it.id1Point == it.id2Point && it.id1Point == 0 }
+        // 跳转
         val intent = Intent(this, StatisticsActivity::class.java)
-        intent.putExtra("gameBean", game)
+        intent.putExtra("gameBean", newGame)
         startActivity(intent)
     }
 
@@ -54,7 +82,7 @@ class PlayerBattleActivity : FragmentActivity() {
     private fun checkData(): Boolean {
         for (i in 0 until game.playerBattleBeans.size) {
             val game = game.playerBattleBeans[i]
-            if (game.id1Point == game.id2Point) {
+            if ((game.id1Point == game.id2Point) && (game.id1Point != 0)) {
                 showTipDialog("第" + (i + 1) + "场比赛比分相同，请修改！")
                 return false
             }
@@ -77,11 +105,12 @@ class PlayerBattleActivity : FragmentActivity() {
 
     private fun initPlayerBattleListUI() {
         var battleAdapter = BattleAdapter(game.playerBattleBeans)
-        battleAdapter.mPointChangeConfirmListener = object :BattleAdapter.IPointChangeConfirmListener{
-            override fun onPointChangeConfirm() {
-                addOrUpdate()
+        battleAdapter.mPointChangeConfirmListener =
+            object : BattleAdapter.IPointChangeConfirmListener {
+                override fun onPointChangeConfirm() {
+                    addOrUpdate()
+                }
             }
-        }
         mBinding.rvBattle.layoutManager = LinearLayoutManager(this)
         mBinding.rvBattle.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
@@ -101,7 +130,6 @@ class PlayerBattleActivity : FragmentActivity() {
     }
 
     private fun addOrUpdate() {
-        val long = ObjectBox.store.boxFor(GameBean::class.java).put(game)
-        println("addOrUpdate "+long)
+        ObjectBox.store.boxFor(GameBean::class.java).put(game)
     }
 }
