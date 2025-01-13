@@ -7,11 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.yj.badmintonplayer.R
 import com.yj.badmintonplayer.databinding.AdapterBattleBinding
 import com.yj.badmintonplayer.ui.bean.PlayerBattleBean
+import com.yj.badmintonplayer.ui.dialog.BattleDetailDialog
 import com.yj.badmintonplayer.ui.dialog.NumberDialog
 
 class BattleAdapter(val dataList: List<PlayerBattleBean>) :
     RecyclerView.Adapter<BattleAdapter.ViewHolder>() {
-        lateinit var mPointChangeConfirmListener : IPointChangeConfirmListener
+    lateinit var mPointChangeConfirmListener: IPointChangeConfirmListener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.adapter_battle, parent, false)
@@ -65,6 +66,17 @@ class BattleAdapter(val dataList: List<PlayerBattleBean>) :
             }
             numberDialog.show()
         }
+
+        holder.mBinding.ivVs.setOnClickListener {
+            val battleDialog = BattleDetailDialog(holder.mBinding.tvPlayer2Point.context, gameBean)
+            battleDialog.mPointUpdateListener = object : BattleDetailDialog.IPointUpdateListener {
+                override fun onPointUpdateListener() {
+                    notifyDataSetChanged()
+                    mPointChangeConfirmListener.onPointChangeConfirm()
+                }
+            }
+            battleDialog.show()
+        }
     }
 
     // 获取默认展示得分
@@ -77,7 +89,7 @@ class BattleAdapter(val dataList: List<PlayerBattleBean>) :
         val mBinding = AdapterBattleBinding.bind(itemView)
     }
 
-     interface IPointChangeConfirmListener{
+    interface IPointChangeConfirmListener {
         fun onPointChangeConfirm()
     }
 
