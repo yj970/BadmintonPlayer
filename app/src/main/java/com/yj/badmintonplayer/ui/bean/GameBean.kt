@@ -17,7 +17,7 @@ class GameBean(
     val roomName: String,
     val createTime: Long,
     @Convert(converter = PlayerBattlesBeansConverter::class, dbType = String::class)
-    val playerBattleBeans: ArrayList<PlayerBattleBean>
+    var playerBattleBeans: ArrayList<PlayerBattleBean>
 ) : Parcelable, Cloneable {
 
 
@@ -71,10 +71,25 @@ class GameBean(
     fun getTitle2(): String {
         val roomName = roomName
         val date = Utils.getDateFormat(createTime)
-        return "竞技日期:" + date + " " + "房间名:" + roomName
+        return  "房间名:" + roomName
     }
 
     public override fun clone(): Any {
         return super.clone()
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as GameBean
+
+        return gameId == other.gameId
+    }
+
+    override fun hashCode(): Int {
+        return gameId.hashCode()
+    }
+
+
 }

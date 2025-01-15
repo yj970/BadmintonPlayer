@@ -1,26 +1,34 @@
 package com.yj.badmintonplayer.ui
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.yj.badmintonplayer.R
 import com.yj.badmintonplayer.databinding.ActivityBattleBinding
 import com.yj.badmintonplayer.ui.adapter.BattleAdapter
+import com.yj.badmintonplayer.ui.bean.BroadcastBean
 import com.yj.badmintonplayer.ui.bean.GameBean
-import com.yj.badmintonplayer.ui.bean.MyObjectBox
 import com.yj.badmintonplayer.ui.db.ObjectBox
 import com.yj.badmintonplayer.ui.dialog.CommonDialog
 import com.yj.badmintonplayer.ui.dialog.TipDialog
 import com.yj.badmintonplayer.ui.utils.SizeUtils
-import io.objectbox.BoxStore
+import com.yj.badmintonplayer.ui.utils.UDPUtil
+import java.net.InetAddress
 
 class PlayerBattleActivity : FragmentActivity() {
     lateinit var mBinding: ActivityBattleBinding
     lateinit var game: GameBean
+    var isRoomer = true// 是否是房主
+    val udpUtil = UDPUtil()
+    lateinit var battleAdapter: BattleAdapter
 
+    // 回复房主的地址
+    var replayInetAddress: InetAddress? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,11 +39,103 @@ class PlayerBattleActivity : FragmentActivity() {
         initView()
         setListener()
         addOrUpdate()
+        startReceiverData()
+    }
+
+    private fun startReceiverData() {
+        udpUtil.startReceive(object : UDPUtil.IReceiverListener {
+            override fun onReceiver(broadcastBean: BroadcastBean, address: InetAddress) {
+                // 客人设置回复地址
+                setReplayAddressIfNotRoomer(address)
+                // 过滤非本房间数据
+                syncGameDataIfThisRoomGame(broadcastBean)
+                // 同步数据给客人
+                sendRoomerBroadcastIfIsRoomer(broadcastBean)
+            }
+        })
+    }
+
+    private fun setReplayAddressIfNotRoomer(address: InetAddress) {
+        if (!isRoomer) {
+            replayInetAddress = address
+        }
+    }
+
+    // 同步房间数据
+    private fun syncGameDataIfThisRoomGame(
+        broadcastBean: BroadcastBean
+    ) {
+
+        if (broadcastBean.type != BroadcastBean.BroadcastType.TYPE_HEART_BEAT) {
+            // 过滤心跳包
+            val gameBean = broadcastBean.gameBean
+            // 判断是否是改房间数据
+            if (gameBean.gameId == game.gameId) {
+                // 判断远程比分与本地比分是否相同
+                var pointChange = false
+                for (i in 0 until game.playerBattleBeans.size) {
+                    val remotePoint1 = gameBean.playerBattleBeans[i].id1Point
+                    val remotePoint2 = gameBean.playerBattleBeans[i].id2Point
+                    val localPoint1 = game.playerBattleBeans[i].id1Point
+                    val localPoint2 = game.playerBattleBeans[i].id2Point
+                    if (remotePoint1 != localPoint1 || remotePoint2 != localPoint2) {
+                        pointChange = true
+                        break
+                    }
+                }
+                if (pointChange) {
+                    // 同步对战数据
+                    game.playerBattleBeans = gameBean.playerBattleBeans
+                    battleAdapter.dataList = game.playerBattleBeans
+                    // 保存数据
+                    addOrUpdate()
+                    // 刷新UI
+                    mBinding.rvBattle.post {
+                        battleAdapter.notifyDataSetChanged()
+                    }
+                }
+            }
+        }
     }
 
     private fun setListener() {
         mBinding.tvClose.setOnClickListener { finish() }
         mBinding.tvComplete.setOnClickListener { complete() }
+        mBinding.btnOpenRoom.setOnCheckedChangeListener { buttonView, isChecked ->
+            run {
+                if (isChecked) {
+                    mBinding.btnOpenRoom.setTextColor(getColor(R.color.color_main))
+                    openRoom()
+                } else {
+                    mBinding.btnOpenRoom.setTextColor(getColor(R.color.color_333))
+                    closeRoom()
+                }
+            }
+        }
+    }
+
+    private fun closeRoom() {
+        udpUtil.stopStartBroadcast()
+    }
+
+    private fun openRoom() {
+        udpUtil.startHeartbeatBroadcastTask(game)
+    }
+
+    private fun sendRoomerBroadcastIfIsRoomer(broadcastBean: BroadcastBean) {
+        if (broadcastBean.type == BroadcastBean.BroadcastType.TYPE_GUEST_REPLAY) {
+            sendRoomerBroadcastIfIsRoomer()
+        }
+    }
+
+    private fun sendRoomerBroadcastIfIsRoomer() {
+        if (isRoomer) {
+            udpUtil.sendRoomerBroadcast(game)
+        }
+    }
+
+    private fun stopReceiverData() {
+        udpUtil.stopReceive()
     }
 
     private fun complete() {
@@ -96,18 +196,30 @@ class PlayerBattleActivity : FragmentActivity() {
     }
 
     private fun initView() {
+        isRoomer = intent.getBooleanExtra("isRoomer", true)
         game = intent.getParcelableExtra("gameBean")!!
         // 标题
         initTitleUI()
         // 列表
         initPlayerBattleListUI()
+        // 房间相关UI
+        initRoomUI()
+    }
+
+    private fun initRoomUI() {
+        mBinding.btnOpenRoom.visibility = if (isRoomer) View.VISIBLE else View.GONE
     }
 
     private fun initPlayerBattleListUI() {
-        var battleAdapter = BattleAdapter(game.playerBattleBeans)
+        battleAdapter = BattleAdapter(game.playerBattleBeans)
         battleAdapter.mPointChangeConfirmListener =
             object : BattleAdapter.IPointChangeConfirmListener {
                 override fun onPointChangeConfirm() {
+                    // 同步数据给房主
+                    sendData2RoomerIfNotRoomer()
+                    // 同步数据给客人
+                    sendRoomerBroadcastIfIsRoomer()
+                    // 保存数据
                     addOrUpdate()
                 }
             }
@@ -125,11 +237,26 @@ class PlayerBattleActivity : FragmentActivity() {
         mBinding.rvBattle.adapter = battleAdapter
     }
 
+    private fun sendData2RoomerIfNotRoomer() {
+        if (!isRoomer) {
+            if (replayInetAddress != null) {
+                udpUtil.guessReplyToRoomer(replayInetAddress!!, game)
+            }
+        }
+    }
+
     private fun initTitleUI() {
-        mBinding.tvTitle.text = game.getTitle()
+        mBinding.tvTitle.text = game.getTitle2()
     }
 
     private fun addOrUpdate() {
         ObjectBox.store.boxFor(GameBean::class.java).put(game)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        closeRoom()
+        stopReceiverData()
+        udpUtil.release()
     }
 }

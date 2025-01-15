@@ -8,6 +8,9 @@ import com.yj.badmintonplayer.databinding.ActivityMainBinding
 import com.yj.badmintonplayer.ui.fragment.HomeFragment
 import com.yj.badmintonplayer.ui.fragment.MineFragment
 import com.yj.badmintonplayer.ui.utils.BaseFragmentPagerAdapter
+import com.yj.badmintonplayer.ui.utils.UDPUtil
+import java.util.Timer
+import java.util.TimerTask
 import kotlin.collections.ArrayList
 
 class MainActivity : FragmentActivity() {

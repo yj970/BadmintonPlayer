@@ -14,6 +14,7 @@ import com.yj.badmintonplayer.databinding.FragmentHomeBinding
 import com.yj.badmintonplayer.ui.PlayerBattleActivity
 import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.dialog.CreateRoomDialog
+import com.yj.badmintonplayer.ui.dialog.SearchRoomDialog
 
 class HomeFragment : Fragment() {
 
@@ -44,7 +45,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setVersionUI() {
-        mBinding.tvVersion.text = "版本号："+getAppVersion(activity!!)
+        mBinding.tvVersion.text = "版本号：" + getAppVersion(activity!!)
     }
 
     fun getAppVersion(context: Context): String {
@@ -61,8 +62,18 @@ class HomeFragment : Fragment() {
             showCreateRoomDialog();
         }
         mBinding.tvJoin.setOnClickListener {
-            Toast.makeText(activity, "敬请期待！", Toast.LENGTH_SHORT).show()
+            showSearchRoomDialog()
         }
+    }
+
+    private fun showSearchRoomDialog() {
+        val dialog = SearchRoomDialog(activity!!)
+        dialog.mClickJoinListener = object : SearchRoomDialog.IClickJoinListener {
+            override fun onClickJoinListener(gameBean: GameBean) {
+                jump2Battle(gameBean, false)
+            }
+        }
+        dialog.show()
     }
 
     private fun showCreateRoomDialog() {
@@ -70,15 +81,16 @@ class HomeFragment : Fragment() {
             CreateRoomDialog(activity!!, androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog)
         dialog.iConfirmListener = object : CreateRoomDialog.IConfirmListener {
             override fun onConfirm(gameBean: GameBean) {
-                jump2Battle(gameBean)
+                jump2Battle(gameBean, true)
             }
         }
         dialog.show()
     }
 
-    private fun jump2Battle(gameBean: GameBean) {
+    private fun jump2Battle(gameBean: GameBean, isRoomer: Boolean) {
         val intent = Intent(activity, PlayerBattleActivity::class.java)
         intent.putExtra("gameBean", gameBean)
+        intent.putExtra("isRoomer", isRoomer)
         activity!!.startActivity(intent)
     }
 }

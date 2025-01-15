@@ -10,7 +10,7 @@ import com.yj.badmintonplayer.ui.bean.PlayerBattleBean
 import com.yj.badmintonplayer.ui.dialog.BattleDetailDialog
 import com.yj.badmintonplayer.ui.dialog.NumberDialog
 
-class BattleAdapter(val dataList: List<PlayerBattleBean>) :
+class BattleAdapter(var dataList: List<PlayerBattleBean>) :
     RecyclerView.Adapter<BattleAdapter.ViewHolder>() {
     lateinit var mPointChangeConfirmListener: IPointChangeConfirmListener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
