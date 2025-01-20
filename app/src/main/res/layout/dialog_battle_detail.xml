@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_white_20"
     android:gravity="center"
     android:orientation="vertical">
 
+    <!--    计分-->
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="@drawable/bg_white_20">
+        android:layout_height="300dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,12 +53,12 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:gravity="center"
                         android:id="@+id/tv_player_1_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_above="@id/tv_player_1_point"
                         android:layout_marginBottom="6dp"
+                        android:gravity="center"
                         android:text="123"
                         android:textColor="#333"
                         android:textSize="20sp" />
@@ -157,8 +158,589 @@
             android:textColor="#333"
             android:textSize="22sp"
             android:textStyle="bold" />
-    </FrameLayout>
 
+        <Switch
+            android:id="@+id/st_score_method"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="end"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="5dp"
+            android:switchPadding="5dp"
+            android:text="技术统计"
+            android:textColor="#333"
+            android:textColorHighlight="@color/color_main"
+            android:textSize="13sp"
+            android:thumb="@drawable/select_thumb"
+            android:trackTint="@color/color_main_transparent" />
+    </FrameLayout>
+    <!--技术统计-->
+    <LinearLayout
+        android:id="@+id/ll_score_method"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!--            高远球-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_1_high_far"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <!--            吊球-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_1_lob"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <!--            杀球-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_1_smash"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <!--            发球-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_1_serve"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <!--            平抽挡-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_1_flat_drive"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <!--            挑球-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_1_pick"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <!--            网前小球-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_1_net_small"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <!--            假动作-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_1_fake"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <!--            变速球-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_1_variable_speed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+            </LinearLayout>
+            <!--            角度变化-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/tv_1_variable_angle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!--            高远球-->
+
+            <TextView
+                android:id="@+id/tv_high_far"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:drawableEnd="@mipmap/icon_qa"
+                android:gravity="center"
+                android:text="高远球"
+                android:textColor="#333"
+                android:textSize="16sp" />
+            <!--            吊球-->
+
+            <TextView
+                android:id="@+id/tv_lob"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:drawableEnd="@mipmap/icon_qa"
+                android:gravity="center"
+                android:text="吊球"
+                android:textColor="#333"
+                android:textSize="16sp" />
+            <!--            杀球-->
+
+
+            <TextView
+                android:id="@+id/tv__smash"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:drawableEnd="@mipmap/icon_qa"
+                android:gravity="center"
+                android:text="杀球"
+                android:textColor="#333"
+                android:textSize="16sp" />
+            <!--            发球-->
+
+            <TextView
+                android:id="@+id/tv_serve"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:drawableEnd="@mipmap/icon_qa"
+                android:gravity="center"
+                android:text="发球"
+                android:textColor="#333"
+                android:textSize="16sp" />
+            <!--            平抽挡-->
+
+            <TextView
+                android:id="@+id/tv_flat_drive"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:drawableEnd="@mipmap/icon_qa"
+                android:gravity="center"
+                android:text="平抽挡"
+                android:textColor="#333"
+                android:textSize="16sp" />
+            <!--            挑球-->
+
+            <TextView
+                android:id="@+id/tv_pick"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:drawableEnd="@mipmap/icon_qa"
+                android:gravity="center"
+                android:text="挑球"
+                android:textColor="#333"
+                android:textSize="16sp" />
+            <!--            网前小球-->
+
+            <TextView
+                android:id="@+id/tv_net_small"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:drawableEnd="@mipmap/icon_qa"
+                android:gravity="center"
+                android:text="网前小球"
+                android:textColor="#333"
+                android:textSize="16sp" />
+            <!--            假动作-->
+
+            <TextView
+                android:id="@+id/tv_fake"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:drawableEnd="@mipmap/icon_qa"
+                android:gravity="center"
+                android:text="假动作"
+                android:textColor="#333"
+                android:textSize="16sp" />
+            <!--            变速球-->
+
+            <TextView
+                android:id="@+id/tv_variable_speed"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:drawableEnd="@mipmap/icon_qa"
+                android:gravity="center"
+                android:text="变速球"
+                android:textColor="#333"
+                android:textSize="16sp" />
+            <!--            角度变化-->
+
+            <TextView
+                android:id="@+id/tv_variable_angle"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:drawableEnd="@mipmap/icon_qa"
+                android:gravity="center"
+                android:text="角度变化"
+                android:textColor="#333"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!--            高远球-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_2_high_far"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+            <!--            吊球-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_2_lob"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+            <!--            杀球-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_2_smash"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+            <!--            发球-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_2_serve"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+            <!--            平抽挡-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_2_flat_drive"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+            <!--            挑球-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_2_pick"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+            <!--            网前小球-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_2_net_small"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+            <!--            假动作-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_2_fake"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+            <!--            变速球-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_2_variable_speed"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+            <!--            角度变化-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_2_variable_angle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#333"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <!--关闭-->
     <ImageView
         android:id="@+id/iv_close"
         android:layout_width="40dp"

@@ -15,6 +15,13 @@ class PlayerBattleBean(val id1: String, val id2: String, val name1: String, val 
     // 选手2得分
     var id2Point: Int = 0;
 
+    // 选手1得分手段
+    var id1ScoreMethod = ScoreMethod()
+
+    // 选手2得分手段
+    var id2ScoreMethod = ScoreMethod()
+
+
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
@@ -23,6 +30,16 @@ class PlayerBattleBean(val id1: String, val id2: String, val name1: String, val 
     ) {
         id1Point = parcel.readInt()
         id2Point = parcel.readInt()
+        try {
+            id1ScoreMethod = parcel.readParcelable(ScoreMethod::class.java.classLoader)!!
+        } catch (e: Exception) {
+            id1ScoreMethod = ScoreMethod()
+        }
+        try {
+            id2ScoreMethod = parcel.readParcelable(ScoreMethod::class.java.classLoader)!!
+        } catch (e: Exception) {
+            id2ScoreMethod = ScoreMethod()
+        }
     }
 
 
@@ -55,6 +72,8 @@ class PlayerBattleBean(val id1: String, val id2: String, val name1: String, val 
         parcel.writeString(name2)
         parcel.writeInt(id1Point)
         parcel.writeInt(id2Point)
+        parcel.writeParcelable(id1ScoreMethod, flags)
+        parcel.writeParcelable(id2ScoreMethod, flags)
     }
 
     override fun describeContents(): Int {
