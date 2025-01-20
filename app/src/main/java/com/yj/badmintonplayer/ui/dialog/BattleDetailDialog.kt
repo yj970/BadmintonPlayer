@@ -29,23 +29,43 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
         setListener()
     }
 
+    fun check(point: Int): Boolean {
+        if (point < 0 || point > 30) {
+            return false
+        } else {
+            return true
+        }
+    }
+
     private fun setListener() {
         mBinding.ivPlayer1AddPoint.setOnClickListener {
+            if (!check(playerBattleBean.id1Point + 1)) {
+                return@setOnClickListener
+            }
             playerBattleBean.id1Point++
             initView()
             onPointUpdateListener()
         }
         mBinding.ivPlayer2AddPoint.setOnClickListener {
+            if (!check(playerBattleBean.id2Point + 1)) {
+                return@setOnClickListener
+            }
             playerBattleBean.id2Point++
             initView()
             onPointUpdateListener()
         }
         mBinding.ivPlayer1ReducePoint.setOnClickListener {
+            if (!check(playerBattleBean.id1Point - 1)) {
+                return@setOnClickListener
+            }
             playerBattleBean.id1Point--
             initView()
             onPointUpdateListener()
         }
         mBinding.ivPlayer2ReducePoint.setOnClickListener {
+            if (!check(playerBattleBean.id2Point - 1)) {
+                return@setOnClickListener
+            }
             playerBattleBean.id2Point--
             initView()
             onPointUpdateListener()
@@ -54,7 +74,10 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
     }
 
     private fun onPointUpdateListener() {
-        mPointUpdateListener.onPointUpdateListener()
+        mPointUpdateListener.onPointUpdateListener(
+            playerBattleBean.id1Point,
+            playerBattleBean.id2Point
+        )
     }
 
     private fun initView() {
@@ -65,6 +88,6 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
     }
 
     interface IPointUpdateListener {
-        fun onPointUpdateListener()
+        fun onPointUpdateListener(id1Point: Int, id2Point: Int)
     }
 }

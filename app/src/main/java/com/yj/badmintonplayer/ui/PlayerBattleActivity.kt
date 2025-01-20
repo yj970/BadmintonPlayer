@@ -16,9 +16,12 @@ import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.db.ObjectBox
 import com.yj.badmintonplayer.ui.dialog.CommonDialog
 import com.yj.badmintonplayer.ui.dialog.TipDialog
+import com.yj.badmintonplayer.ui.utils.DataLock
 import com.yj.badmintonplayer.ui.utils.SizeUtils
 import com.yj.badmintonplayer.ui.utils.UDPUtil
 import java.net.InetAddress
+import java.util.Timer
+import java.util.TimerTask
 
 class PlayerBattleActivity : FragmentActivity() {
     lateinit var mBinding: ActivityBattleBinding
@@ -26,6 +29,7 @@ class PlayerBattleActivity : FragmentActivity() {
     var isRoomer = true// 是否是房主
     val udpUtil = UDPUtil()
     lateinit var battleAdapter: BattleAdapter
+    var checkOnlineTimer: Timer? = null
 
     // 回复房主的地址
     var replayInetAddress: InetAddress? = null
@@ -45,6 +49,8 @@ class PlayerBattleActivity : FragmentActivity() {
     private fun startReceiverData() {
         udpUtil.startReceive(object : UDPUtil.IReceiverListener {
             override fun onReceiver(broadcastBean: BroadcastBean, address: InetAddress) {
+                // 更新在线状态
+                updateOnlineUIIfNotRoomer()
                 // 客人设置回复地址
                 setReplayAddressIfNotRoomer(address)
                 // 过滤非本房间数据
@@ -53,6 +59,29 @@ class PlayerBattleActivity : FragmentActivity() {
                 sendRoomerBroadcastIfIsRoomer(broadcastBean)
             }
         })
+    }
+
+    private fun updateOnlineUIIfNotRoomer() {
+        mBinding.tvOnlineState.post {
+            mBinding.tvOnlineState.text = "在线"
+            mBinding.tvOnlineState.setTextColor(Color.GREEN)
+            if (checkOnlineTimer != null) {
+                checkOnlineTimer?.cancel()
+            }
+            checkOnlineTimer = Timer()
+            checkOnlineTimer?.schedule(object : TimerTask() {
+                override fun run() {
+                    updateOfflineUIIfNotRoomer()
+                }
+            }, 5000)
+        }
+    }
+
+    private fun updateOfflineUIIfNotRoomer() {
+        mBinding.tvOnlineState.post {
+            mBinding.tvOnlineState.text = "离线"
+            mBinding.tvOnlineState.setTextColor(Color.GRAY)
+        }
     }
 
     private fun setReplayAddressIfNotRoomer(address: InetAddress) {
@@ -65,33 +94,34 @@ class PlayerBattleActivity : FragmentActivity() {
     private fun syncGameDataIfThisRoomGame(
         broadcastBean: BroadcastBean
     ) {
-
-        if (broadcastBean.type != BroadcastBean.BroadcastType.TYPE_HEART_BEAT) {
-            // 过滤心跳包
-            val gameBean = broadcastBean.gameBean
-            // 判断是否是改房间数据
-            if (gameBean.gameId == game.gameId) {
-                // 判断远程比分与本地比分是否相同
-                var pointChange = false
-                for (i in 0 until game.playerBattleBeans.size) {
-                    val remotePoint1 = gameBean.playerBattleBeans[i].id1Point
-                    val remotePoint2 = gameBean.playerBattleBeans[i].id2Point
-                    val localPoint1 = game.playerBattleBeans[i].id1Point
-                    val localPoint2 = game.playerBattleBeans[i].id2Point
-                    if (remotePoint1 != localPoint1 || remotePoint2 != localPoint2) {
-                        pointChange = true
-                        break
+        synchronized(DataLock.dataLock) {
+            if (broadcastBean.type != BroadcastBean.BroadcastType.TYPE_HEART_BEAT) {
+                // 过滤心跳包
+                val gameBean = broadcastBean.gameBean
+                // 判断是否是改房间数据
+                if (gameBean.gameId == game.gameId) {
+                    // 判断远程比分与本地比分是否相同
+                    var pointChange = false
+                    for (i in 0 until game.playerBattleBeans.size) {
+                        val remotePoint1 = gameBean.playerBattleBeans[i].id1Point
+                        val remotePoint2 = gameBean.playerBattleBeans[i].id2Point
+                        val localPoint1 = game.playerBattleBeans[i].id1Point
+                        val localPoint2 = game.playerBattleBeans[i].id2Point
+                        if (remotePoint1 != localPoint1 || remotePoint2 != localPoint2) {
+                            pointChange = true
+                            break
+                        }
                     }
-                }
-                if (pointChange) {
-                    // 同步对战数据
-                    game.playerBattleBeans = gameBean.playerBattleBeans
-                    battleAdapter.dataList = game.playerBattleBeans
-                    // 保存数据
-                    addOrUpdate()
-                    // 刷新UI
-                    mBinding.rvBattle.post {
-                        battleAdapter.notifyDataSetChanged()
+                    if (pointChange) {
+                        // 同步对战数据
+                        game.playerBattleBeans = gameBean.playerBattleBeans
+                        battleAdapter.dataList = game.playerBattleBeans
+                        // 保存数据
+                        addOrUpdate()
+                        // 刷新UI
+                        mBinding.rvBattle.post {
+                            battleAdapter.notifyDataSetChanged()
+                        }
                     }
                 }
             }
@@ -208,6 +238,7 @@ class PlayerBattleActivity : FragmentActivity() {
 
     private fun initRoomUI() {
         mBinding.btnOpenRoom.visibility = if (isRoomer) View.VISIBLE else View.GONE
+        mBinding.tvOnlineState.visibility = if (!isRoomer) View.VISIBLE else View.GONE
     }
 
     private fun initPlayerBattleListUI() {

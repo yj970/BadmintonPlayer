@@ -9,6 +9,7 @@ import com.yj.badmintonplayer.databinding.AdapterBattleBinding
 import com.yj.badmintonplayer.ui.bean.PlayerBattleBean
 import com.yj.badmintonplayer.ui.dialog.BattleDetailDialog
 import com.yj.badmintonplayer.ui.dialog.NumberDialog
+import com.yj.badmintonplayer.ui.utils.DataLock
 
 class BattleAdapter(var dataList: List<PlayerBattleBean>) :
     RecyclerView.Adapter<BattleAdapter.ViewHolder>() {
@@ -43,9 +44,12 @@ class BattleAdapter(var dataList: List<PlayerBattleBean>) :
             )
             numberDialog.mConfirmListener = object : NumberDialog.IConfirmListener {
                 override fun onConFirm(value: Int) {
-                    gameBean.id1Point = value
-                    notifyDataSetChanged()
-                    mPointChangeConfirmListener.onPointChangeConfirm()
+                    synchronized(DataLock.dataLock) {
+                        val g = dataList[position]
+                        g.id1Point = value
+                        notifyDataSetChanged()
+                        mPointChangeConfirmListener.onPointChangeConfirm()
+                    }
                 }
             }
             numberDialog.show()
@@ -59,9 +63,12 @@ class BattleAdapter(var dataList: List<PlayerBattleBean>) :
             )
             numberDialog.mConfirmListener = object : NumberDialog.IConfirmListener {
                 override fun onConFirm(value: Int) {
-                    gameBean.id2Point = value
-                    notifyDataSetChanged()
-                    mPointChangeConfirmListener.onPointChangeConfirm()
+                    synchronized(DataLock.dataLock) {
+                        val g = dataList[position]
+                        g.id2Point = value
+                        notifyDataSetChanged()
+                        mPointChangeConfirmListener.onPointChangeConfirm()
+                    }
                 }
             }
             numberDialog.show()
@@ -70,9 +77,15 @@ class BattleAdapter(var dataList: List<PlayerBattleBean>) :
         holder.mBinding.ivVs.setOnClickListener {
             val battleDialog = BattleDetailDialog(holder.mBinding.tvPlayer2Point.context, gameBean)
             battleDialog.mPointUpdateListener = object : BattleDetailDialog.IPointUpdateListener {
-                override fun onPointUpdateListener() {
-                    notifyDataSetChanged()
-                    mPointChangeConfirmListener.onPointChangeConfirm()
+
+                override fun onPointUpdateListener(id1Point: Int, id2Point: Int) {
+                    synchronized(DataLock.dataLock) {
+                        val g = dataList[position]
+                        g.id1Point = id1Point
+                        g.id2Point = id2Point
+                        notifyDataSetChanged()
+                        mPointChangeConfirmListener.onPointChangeConfirm()
+                    }
                 }
             }
             battleDialog.show()

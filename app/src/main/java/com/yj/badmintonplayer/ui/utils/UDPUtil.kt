@@ -55,18 +55,15 @@ class UDPUtil {
     ) {
         val broadcastThread = Thread(Runnable {
             try {
-                val msg = JsonUtil.toJson(broadcastBean)
-                val broadcastMessage = msg.toByteArray()
-                val broadcastAddress = InetAddress.getByName("255.255.255.255")
-                val sendPacket = DatagramPacket(
-                    broadcastMessage,
-                    broadcastMessage.size,
-                    broadcastAddress,
-                    BROADCAST_PORT
-                )
-                // 发送广播消息
-                socket.send(sendPacket)
-                Log.d(TAG, "Sent broadcast message=" + msg)
+
+                // todo
+                val list = IPUtil.getIpInfoList()
+                for (ip in  list) {
+                    val (msg, sendPacket) = getDatagramPacket(broadcastBean, ip.getBroadcastAddress())
+                    // 发送广播消息
+                    socket.send(sendPacket)
+                    Log.d(TAG, "Sent broadcast message=" + msg)
+                }
 //
 //                val buffer = ByteArray(BUFFER_SIZE)
 //                val receivePacket = DatagramPacket(buffer, buffer.size)
@@ -90,6 +87,19 @@ class UDPUtil {
             }
         })
         broadcastThread.start()
+    }
+
+    private fun getDatagramPacket(broadcastBean: BroadcastBean, broadcastAddress: String): Pair<String, DatagramPacket> {
+        val msg = JsonUtil.toJson(broadcastBean)
+        val broadcastMessage = msg.toByteArray()
+        val broadcastAddress = InetAddress.getByName(broadcastAddress)
+        val sendPacket = DatagramPacket(
+            broadcastMessage,
+            broadcastMessage.size,
+            broadcastAddress,
+            BROADCAST_PORT
+        )
+        return Pair(msg, sendPacket)
     }
 
     // 发送房主广播
@@ -136,9 +146,9 @@ class UDPUtil {
                     if (receivedBroadcast != null) {
                         listener.onReceiver(receivedBroadcast, packet.address)
                     }
-//                    Log.d(TAG, "startReceive: $receivedMessage")
+//                    Log.d(TAG, "接收到消息: $receivedMessage")
                 } catch (e: IOException) {
-//                    Log.e(TAG, "Error receiving packet: ${e.message}")
+//                    Log.e(TAG, "失败")
                     break
                 }
             }
@@ -180,9 +190,9 @@ class UDPUtil {
             )
             try {
                 socket.send(replyPacket)
-//                Log.d(TAG, "Sent reply to broadcast")
+//                Log.d(TAG, "回复广播:"+msg)
             } catch (e: IOException) {
-//                Log.e(TAG, "Error sending reply: ${e.message}")
+//                Log.e(TAG, "回复广播失败...")
             }
         })
         thread.start()
