@@ -48,7 +48,7 @@ class PlayerDataStatisticsAdapter(val dataList: List<PlayerBean>) :
 
 //        比分数据
         val adapter = PlayerBattleAdapter(player.games, player.id)
-        adapter.setShowScoreMethodAndRefresh(showScoreMethod)
+        adapter.showScoreMethod = showScoreMethod
         holder.mBinding.rvGame.layoutManager = GridLayoutManager(holder.mBinding.rvGame.context, 3)
         if (holder.mBinding.rvGame.itemDecorationCount  == 0) {
             holder.mBinding.rvGame.addItemDecoration(object : RecyclerView.ItemDecoration() {

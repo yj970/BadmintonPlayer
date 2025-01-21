@@ -14,11 +14,6 @@ class PlayerBattleAdapter(val dataList: List<PlayerBattleBean>, val leftId: Stri
 
     var showScoreMethod = false
 
-    fun setShowScoreMethodAndRefresh(checked: Boolean) {
-        showScoreMethod = checked
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.adapter_player_battle, parent, false)
@@ -41,12 +36,12 @@ class PlayerBattleAdapter(val dataList: List<PlayerBattleBean>, val leftId: Stri
         holder.mBinding.tvPlayerRightPoint.text = point2.toString()
 
         // 统计
-        holder.mBinding.llScoreMethod.visibility = if (showScoreMethod) View.VISIBLE else View.GONE
+        holder.mBinding.clScoreMethod.visibility = if (showScoreMethod) View.VISIBLE else View.GONE
         val scoreMethod1 = if (id1Left) gameBean.id1ScoreMethod else gameBean.id2ScoreMethod
         val scoreMethod2 = if (!id1Left) gameBean.id1ScoreMethod else gameBean.id2ScoreMethod
 
-        holder.mBinding.llScoreMethodTitle.visibility =
-            if (point1 > point2) View.VISIBLE else View.INVISIBLE
+        holder.mBinding.tvTitle.visibility = if (point1 > point2) View.VISIBLE else View.INVISIBLE
+        holder.mBinding.ivStar.visibility = if (point1 > point2) View.VISIBLE else View.INVISIBLE
         holder.mBinding.tvTitle.text = scoreMethod1.getTitle(point1 - point2)
 
         holder.mBinding.tv1HighFarPoint.text = scoreMethod1.highFar.toString()

@@ -32,7 +32,7 @@ class BroadcastBean(val gameBean: GameBean, val type: Int) : Parcelable {
     object BroadcastType {
         val TYPE_HEART_BEAT = 1// 心跳
         val TYPE_GUEST_REPLAY = 2;// 客人回复
-        val TYPE_ROOMER_BROADCAST = 3;// 房主广播
+//        val TYPE_ROOMER_BROADCAST = 3;// 房主广播
     }
 
 }

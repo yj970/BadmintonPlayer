@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.yj.badmintonplayer.databinding.FragmentHomeBinding
+import com.yj.badmintonplayer.ui.HelpActivity
 import com.yj.badmintonplayer.ui.PlayerBattleActivity
 import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.dialog.CreateRoomDialog
@@ -64,6 +65,9 @@ class HomeFragment : Fragment() {
         mBinding.tvJoin.setOnClickListener {
             showSearchRoomDialog()
         }
+        mBinding.tvUdpTip.setOnClickListener {
+            jump2Help()
+        }
     }
 
     private fun showSearchRoomDialog() {
@@ -91,6 +95,12 @@ class HomeFragment : Fragment() {
         val intent = Intent(activity, PlayerBattleActivity::class.java)
         intent.putExtra("gameBean", gameBean)
         intent.putExtra("isRoomer", isRoomer)
+        activity!!.startActivity(intent)
+    }
+
+
+    private fun jump2Help() {
+        val intent = Intent(activity, HelpActivity::class.java)
         activity!!.startActivity(intent)
     }
 }

@@ -56,7 +56,7 @@ class PlayerBattleActivity : FragmentActivity() {
                 // 过滤非本房间数据
                 syncGameDataIfThisRoomGame(broadcastBean)
                 // 同步数据给客人
-                sendRoomerBroadcastIfIsRoomer(broadcastBean)
+//                sendRoomerBroadcastIfIsRoomer(broadcastBean)
             }
         })
     }
@@ -95,8 +95,13 @@ class PlayerBattleActivity : FragmentActivity() {
         broadcastBean: BroadcastBean
     ) {
         synchronized(DataLock.dataLock) {
-            if (broadcastBean.type != BroadcastBean.BroadcastType.TYPE_HEART_BEAT) {
-                // 过滤心跳包
+            // 默认不过滤，是房主且是心跳包，则过滤
+            var filter = false
+            if (isRoomer && broadcastBean.type == BroadcastBean.BroadcastType.TYPE_HEART_BEAT) {
+                filter = true
+            }
+            // 是否过滤
+            if (!filter) {
                 val gameBean = broadcastBean.gameBean
                 // 判断是否是改房间数据
                 if (gameBean.gameId == game.gameId) {
@@ -105,9 +110,13 @@ class PlayerBattleActivity : FragmentActivity() {
                     for (i in 0 until game.playerBattleBeans.size) {
                         val remotePoint1 = gameBean.playerBattleBeans[i].id1Point
                         val remotePoint2 = gameBean.playerBattleBeans[i].id2Point
+                        val remoteScoreMethod1 = gameBean.playerBattleBeans[i].id1ScoreMethod
+                        val remoteScoreMethod2 = gameBean.playerBattleBeans[i].id2ScoreMethod
                         val localPoint1 = game.playerBattleBeans[i].id1Point
                         val localPoint2 = game.playerBattleBeans[i].id2Point
-                        if (remotePoint1 != localPoint1 || remotePoint2 != localPoint2) {
+                        val localScoreMethod1 = game.playerBattleBeans[i].id1ScoreMethod
+                        val localScoreMethod2 = game.playerBattleBeans[i].id2ScoreMethod
+                        if (remotePoint1 != localPoint1 || remotePoint2 != localPoint2 || remoteScoreMethod1 != localScoreMethod1 || remoteScoreMethod2 != localScoreMethod2) {
                             pointChange = true
                             break
                         }
@@ -152,17 +161,17 @@ class PlayerBattleActivity : FragmentActivity() {
         udpUtil.startHeartbeatBroadcastTask(game)
     }
 
-    private fun sendRoomerBroadcastIfIsRoomer(broadcastBean: BroadcastBean) {
-        if (broadcastBean.type == BroadcastBean.BroadcastType.TYPE_GUEST_REPLAY) {
-            sendRoomerBroadcastIfIsRoomer()
-        }
-    }
+//    private fun sendRoomerBroadcastIfIsRoomer(broadcastBean: BroadcastBean) {
+//        if (broadcastBean.type == BroadcastBean.BroadcastType.TYPE_GUEST_REPLAY) {
+//            sendRoomerBroadcastIfIsRoomer()
+//        }
+//    }
 
-    private fun sendRoomerBroadcastIfIsRoomer() {
-        if (isRoomer) {
-            udpUtil.sendRoomerBroadcast(game)
-        }
-    }
+//    private fun sendRoomerBroadcastIfIsRoomer() {
+//        if (isRoomer) {
+//            udpUtil.sendRoomerBroadcast(game)
+//        }
+//    }
 
     private fun stopReceiverData() {
         udpUtil.stopReceive()
@@ -248,8 +257,8 @@ class PlayerBattleActivity : FragmentActivity() {
                 override fun onPointChangeConfirm() {
                     // 同步数据给房主
                     sendData2RoomerIfNotRoomer()
-                    // 同步数据给客人
-                    sendRoomerBroadcastIfIsRoomer()
+//                     同步数据给客人
+//                    sendRoomerBroadcastIfIsRoomer()
                     // 保存数据
                     addOrUpdate()
                 }

@@ -8,6 +8,7 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Environment
+import android.os.SystemClock
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -25,6 +26,7 @@ import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.bean.PlayerBattleBean
 import com.yj.badmintonplayer.ui.bean.PlayerBean
 import com.yj.badmintonplayer.ui.bean.ScoreMethod
+import com.yj.badmintonplayer.ui.dialog.CommonDialog
 import com.yj.badmintonplayer.ui.utils.SizeUtils
 import java.io.OutputStream
 import java.time.LocalDate
@@ -34,7 +36,7 @@ import java.util.UUID
 class StatisticsActivity : FragmentActivity() {
     lateinit var mBinding: ActivityStatisticsBinding
     lateinit var game: GameBean
-    lateinit var playerDataStatisticsAdapter:PlayerDataStatisticsAdapter
+    lateinit var playerDataStatisticsAdapter: PlayerDataStatisticsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +45,10 @@ class StatisticsActivity : FragmentActivity() {
         setContentView(mBinding.root)
 
         initListener()
-        initView()
+
+        mBinding.tvTitle.post {
+            initView()
+        }
     }
 
     private fun initView() {
@@ -97,7 +102,7 @@ class StatisticsActivity : FragmentActivity() {
             player1!!.games.add(game)
             player2!!.games.add(game)
             // 技术统计
-            player1!!.attachPoint =game.id1ScoreMethod.getAttachPoint()
+            player1!!.attachPoint = game.id1ScoreMethod.getAttachPoint()
             player1!!.defendPoint = game.id1ScoreMethod.getDefendPoint()
             player1!!.controlPoint = game.id1ScoreMethod.getControlPoint()
             player2!!.attachPoint = game.id2ScoreMethod.getAttachPoint()

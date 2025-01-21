@@ -109,6 +109,42 @@ class ScoreMethod() : Parcelable {
         return "平平无奇"
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as ScoreMethod
+
+        if (highFar != other.highFar) return false
+        if (lob != other.lob) return false
+        if (smash != other.smash) return false
+        if (serve != other.serve) return false
+        if (flatDrive != other.flatDrive) return false
+        if (pick != other.pick) return false
+        if (netSmall != other.netSmall) return false
+        if (fake != other.fake) return false
+        if (variableSpeed != other.variableSpeed) return false
+        if (variableAngle != other.variableAngle) return false
+        if (normal != other.normal) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = highFar
+        result = 31 * result + lob
+        result = 31 * result + smash
+        result = 31 * result + serve
+        result = 31 * result + flatDrive
+        result = 31 * result + pick
+        result = 31 * result + netSmall
+        result = 31 * result + fake
+        result = 31 * result + variableSpeed
+        result = 31 * result + variableAngle
+        result = 31 * result + normal
+        return result
+    }
+
     companion object CREATOR : Parcelable.Creator<ScoreMethod> {
         override fun createFromParcel(parcel: Parcel): ScoreMethod {
             return ScoreMethod(parcel)
@@ -118,4 +154,7 @@ class ScoreMethod() : Parcelable {
             return arrayOfNulls(size)
         }
     }
+
+
+
 }

@@ -55,33 +55,13 @@ class UDPUtil {
     ) {
         val broadcastThread = Thread(Runnable {
             try {
-
-                // todo
                 val list = IPUtil.getIpInfoList()
-                for (ip in  list) {
-                    val (msg, sendPacket) = getDatagramPacket(broadcastBean, ip.getBroadcastAddress())
+                for (ip in list) {
+                    val sendPacket = getDatagramPacket(broadcastBean, ip.getBroadcastAddress())
                     // 发送广播消息
                     socket.send(sendPacket)
-                    Log.d(TAG, "Sent broadcast message=" + msg)
+                    Log.d(TAG, "发送心跳。。。")
                 }
-//
-//                val buffer = ByteArray(BUFFER_SIZE)
-//                val receivePacket = DatagramPacket(buffer, buffer.size)
-//                // 接收广播回复
-//                socket.receive(receivePacket)
-//                val receivedMessage = String(receivePacket.data, 0, receivePacket.length)
-//                var receivedBroadcastBean: BroadcastBean? = null
-//                try {
-//                    receivedBroadcastBean = JsonUtil.fromJson<BroadcastBean>(receivedMessage)
-//                } catch (e: Exception) {
-//                }
-//                if (receivedBroadcastBean != null) {
-//                    // 只接受客人发送的广播
-//                    if (receivedBroadcastBean.type == BroadcastBean.BroadcastType.TYPE_GUEST_REPLAY) {
-//                        Log.d(TAG, "Received reply: $receivedMessage")
-//                        listener.onReceiver(receivedBroadcastBean)
-//                    }
-//                }
             } catch (e: IOException) {
 //                Log.e(TAG, "Error broadcasting: ${e.message}")
             }
@@ -89,7 +69,10 @@ class UDPUtil {
         broadcastThread.start()
     }
 
-    private fun getDatagramPacket(broadcastBean: BroadcastBean, broadcastAddress: String): Pair<String, DatagramPacket> {
+    private fun getDatagramPacket(
+        broadcastBean: BroadcastBean,
+        broadcastAddress: String
+    ): DatagramPacket {
         val msg = JsonUtil.toJson(broadcastBean)
         val broadcastMessage = msg.toByteArray()
         val broadcastAddress = InetAddress.getByName(broadcastAddress)
@@ -99,34 +82,30 @@ class UDPUtil {
             broadcastAddress,
             BROADCAST_PORT
         )
-        return Pair(msg, sendPacket)
+        return sendPacket
     }
 
     // 发送房主广播
-    fun sendRoomerBroadcast(gameBean: GameBean) {
-        // 因为UDP不可靠，所以一次发送3条
-        for (i in 0 until 3) {
-            val broadcastThread = Thread(Runnable {
-                try {
-                    val broadcastBean =
-                        BroadcastBean(gameBean, BroadcastBean.BroadcastType.TYPE_ROOMER_BROADCAST)
-                    val msg = JsonUtil.toJson(broadcastBean)
-                    val broadcastMessage = msg.toByteArray()
-                    val broadcastAddress = InetAddress.getByName("255.255.255.255")
-                    val sendPacket = DatagramPacket(
-                        broadcastMessage,
-                        broadcastMessage.size,
-                        broadcastAddress,
-                        BROADCAST_PORT
-                    )
-                    // 发送广播消息
-                    socket.send(sendPacket)
-                } catch (e: IOException) {
-                }
-            })
-            broadcastThread.start()
-        }
-    }
+//    fun sendRoomerBroadcast(gameBean: GameBean) {
+//        // 因为UDP不可靠，所以一次发送3条
+//        for (i in 0 until 3) {
+//            val broadcastThread = Thread(Runnable {
+//                try {
+//                    val list = IPUtil.getIpInfoList()
+//                    val broadcastBean =
+//                        BroadcastBean(gameBean, BroadcastBean.BroadcastType.TYPE_ROOMER_BROADCAST)
+//                    for (ip in  list) {
+//                        val sendPacket = getDatagramPacket(broadcastBean, ip.getBroadcastAddress())
+//                        // 发送广播消息
+//                        socket.send(sendPacket)
+//                        Log.d(TAG, "房主广播。。。")
+//                    }
+//                } catch (e: IOException) {
+//                }
+//            })
+//            broadcastThread.start()
+//        }
+//    }
 
 
     // 接收广播
@@ -146,7 +125,10 @@ class UDPUtil {
                     if (receivedBroadcast != null) {
                         listener.onReceiver(receivedBroadcast, packet.address)
                     }
-//                    Log.d(TAG, "接收到消息: $receivedMessage")
+
+                    // 只打印房主广播
+                    // todo test
+                    Log.d(TAG, "接收到消息: $receivedMessage")
                 } catch (e: IOException) {
 //                    Log.e(TAG, "失败")
                     break

@@ -89,6 +89,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id1ScoreMethod.highFar = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -97,6 +98,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id1ScoreMethod.lob = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -105,6 +107,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id1ScoreMethod.smash = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -113,6 +116,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id1ScoreMethod.serve = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -121,6 +125,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id1ScoreMethod.flatDrive = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -129,6 +134,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id1ScoreMethod.pick = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -137,6 +143,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id1ScoreMethod.netSmall = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -145,6 +152,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id1ScoreMethod.fake = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -153,6 +161,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id1ScoreMethod.variableSpeed = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -161,6 +170,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id1ScoreMethod.variableAngle = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -171,6 +181,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id2ScoreMethod.highFar = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -179,6 +190,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id2ScoreMethod.lob = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -187,6 +199,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id2ScoreMethod.smash = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -195,6 +208,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id2ScoreMethod.serve = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -203,6 +217,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id2ScoreMethod.flatDrive = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -211,6 +226,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id2ScoreMethod.pick = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -219,6 +235,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id2ScoreMethod.netSmall = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -227,6 +244,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id2ScoreMethod.fake = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -235,6 +253,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id2ScoreMethod.variableSpeed = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
@@ -243,6 +262,7 @@ class BattleDetailDialog(context: Context, val playerBattleBean: PlayerBattleBea
                 override fun onClickConfirm(p: Int) {
                     playerBattleBean.id2ScoreMethod.variableAngle = p
                     updateAllScoreMethodUI()
+                    onPointUpdateListener()
                 }
             })
         }
