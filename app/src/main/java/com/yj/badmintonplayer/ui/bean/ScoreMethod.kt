@@ -3,20 +3,23 @@ package com.yj.badmintonplayer.ui.bean
 import android.os.Parcel
 import android.os.Parcelable
 
-class ScoreMethod() :Parcelable{
+class ScoreMethod() : Parcelable {
     // 进攻
     var highFar = 0// 高远球
     var lob = 0// 吊球
     var smash = 0// 杀球
     var serve = 0// 发球
+
     // 防守
     var flatDrive = 0// 平抽挡
     var pick = 0// 挑球
+
+    // 控制
     var netSmall = 0// 网前小球
-    // 超一流
     var fake = 0// 假动作
     var variableSpeed = 0// 变速球
     var variableAngle = 0// 角度变化
+
     // 无
     var normal = 0// 无统计
 
@@ -50,6 +53,60 @@ class ScoreMethod() :Parcelable{
 
     override fun describeContents(): Int {
         return 0
+    }
+
+    fun getControlPoint(): Int {
+        return netSmall + fake + variableSpeed + variableAngle
+    }
+
+    fun getDefendPoint(): Int {
+        return flatDrive + pick
+    }
+
+    fun getAttachPoint(): Int {
+        return highFar + lob + smash + serve
+    }
+
+    fun getTitle(diff: Int): String {
+        val attachPoint = getAttachPoint()
+        val defendPoint = getDefendPoint()
+        val controlPoint = getControlPoint()
+        val LEVEL_1 = 3
+        val LEVEL_2 = 6
+
+        if (controlPoint >= attachPoint && controlPoint >= defendPoint && controlPoint > 0) {
+            if (diff > LEVEL_2) {
+                return "云泥之别"
+            }
+            if (diff > LEVEL_1) {
+                return "千变万化"
+            }
+            return "游刃有余"
+        }
+
+        if (attachPoint >= defendPoint && attachPoint >= controlPoint && attachPoint > 0) {
+            if (diff > LEVEL_2) {
+                return "狂轰乱炸"
+            }
+            if (diff > LEVEL_1) {
+                return "破竹建瓴"
+            }
+            return "攻势如火"
+        }
+
+        if (defendPoint >= attachPoint && defendPoint >= controlPoint && defendPoint > 0) {
+            if (diff > LEVEL_2) {
+                return "不动如山"
+            }
+            if (diff > LEVEL_1) {
+                return "以守为攻"
+            }
+            return "以柔克刚"
+        }
+
+
+
+        return "平平无奇"
     }
 
     companion object CREATOR : Parcelable.Creator<ScoreMethod> {

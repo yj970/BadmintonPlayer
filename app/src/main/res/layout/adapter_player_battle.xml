@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="60dp">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="60dp"
         android:layout_gravity="center"
         android:background="@drawable/bg_solid_transparent_white_stroke"
         android:gravity="center">
@@ -73,4 +75,699 @@
                 android:textSize="13sp" />
         </LinearLayout>
     </LinearLayout>
-</FrameLayout>
+
+    <!--    统计-->
+    <LinearLayout
+        android:id="@+id/ll_score_method"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_score_method_title"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="2dp"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:src="@mipmap/icon_star" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="3dp"
+                android:includeFontPadding="false"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="9sp" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_1_high_far_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toTopOf="@id/hr_1_high_far"
+                app:layout_constraintEnd_toStartOf="@id/tv_high_far"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_high_far"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="高远球"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_high_far_point"
+                app:layout_constraintEnd_toStartOf="@id/tv_2_high_far_point"
+                app:layout_constraintStart_toEndOf="@id/tv_1_high_far_point"
+                app:layout_constraintTop_toTopOf="@id/tv_1_high_far_point" />
+
+            <TextView
+                android:id="@+id/tv_2_high_far_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_high_far_point"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_high_far"
+                app:layout_constraintTop_toTopOf="@id/tv_1_high_far_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_1_high_far"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/hr_2_high_far"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_1_high_far_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_2_high_far"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/hr_1_high_far"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hr_1_high_far"
+                app:layout_constraintTop_toTopOf="@id/hr_1_high_far" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_1_lob_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toTopOf="@id/hr_1_lob"
+                app:layout_constraintEnd_toStartOf="@id/tv_lob"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_lob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="吊球"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_lob_point"
+                app:layout_constraintEnd_toStartOf="@id/tv_2_lob_point"
+                app:layout_constraintStart_toEndOf="@id/tv_1_lob_point"
+                app:layout_constraintTop_toTopOf="@id/tv_1_lob_point" />
+
+            <TextView
+                android:id="@+id/tv_2_lob_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_lob_point"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_lob"
+                app:layout_constraintTop_toTopOf="@id/tv_1_lob_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_1_lob"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/hr_2_lob"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_1_lob_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_2_lob"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/hr_1_lob"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hr_1_lob"
+                app:layout_constraintTop_toTopOf="@id/hr_1_lob" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_1_smash_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toTopOf="@id/hr_1_smash"
+                app:layout_constraintEnd_toStartOf="@id/tv_smash"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_smash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="杀球"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_smash_point"
+                app:layout_constraintEnd_toStartOf="@id/tv_2_smash_point"
+                app:layout_constraintStart_toEndOf="@id/tv_1_smash_point"
+                app:layout_constraintTop_toTopOf="@id/tv_1_smash_point" />
+
+            <TextView
+                android:id="@+id/tv_2_smash_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_smash_point"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_smash"
+                app:layout_constraintTop_toTopOf="@id/tv_1_smash_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_1_smash"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/hr_2_smash"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_1_smash_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_2_smash"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/hr_1_smash"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hr_1_smash"
+                app:layout_constraintTop_toTopOf="@id/hr_1_smash" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_1_serve_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toTopOf="@id/hr_1_serve"
+                app:layout_constraintEnd_toStartOf="@id/tv_serve"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_serve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="发球"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_serve_point"
+                app:layout_constraintEnd_toStartOf="@id/tv_2_serve_point"
+                app:layout_constraintStart_toEndOf="@id/tv_1_serve_point"
+                app:layout_constraintTop_toTopOf="@id/tv_1_serve_point" />
+
+            <TextView
+                android:id="@+id/tv_2_serve_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_serve_point"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_serve"
+                app:layout_constraintTop_toTopOf="@id/tv_1_serve_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_1_serve"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/hr_2_serve"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_1_serve_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_2_serve"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/hr_1_serve"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hr_1_serve"
+                app:layout_constraintTop_toTopOf="@id/hr_1_serve" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_1_flat_drive_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toTopOf="@id/hr_1_flat_drive"
+                app:layout_constraintEnd_toStartOf="@id/tv_flat_drive"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_flat_drive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="平抽挡"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_flat_drive_point"
+                app:layout_constraintEnd_toStartOf="@id/tv_2_flat_drive_point"
+                app:layout_constraintStart_toEndOf="@id/tv_1_flat_drive_point"
+                app:layout_constraintTop_toTopOf="@id/tv_1_flat_drive_point" />
+
+            <TextView
+                android:id="@+id/tv_2_flat_drive_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_flat_drive_point"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_flat_drive"
+                app:layout_constraintTop_toTopOf="@id/tv_1_flat_drive_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_1_flat_drive"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/hr_2_flat_drive"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_1_flat_drive_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_2_flat_drive"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/hr_1_flat_drive"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hr_1_flat_drive"
+                app:layout_constraintTop_toTopOf="@id/hr_1_flat_drive" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_1_pick_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toTopOf="@id/hr_1_pick"
+                app:layout_constraintEnd_toStartOf="@id/tv_pick"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_pick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="挑球"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_pick_point"
+                app:layout_constraintEnd_toStartOf="@id/tv_2_pick_point"
+                app:layout_constraintStart_toEndOf="@id/tv_1_pick_point"
+                app:layout_constraintTop_toTopOf="@id/tv_1_pick_point" />
+
+            <TextView
+                android:id="@+id/tv_2_pick_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_pick_point"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_pick"
+                app:layout_constraintTop_toTopOf="@id/tv_1_pick_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_1_pick"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/hr_2_pick"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_1_pick_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_2_pick"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/hr_1_pick"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hr_1_pick"
+                app:layout_constraintTop_toTopOf="@id/hr_1_pick" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_1_net_small_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toTopOf="@id/hr_1_net_small"
+                app:layout_constraintEnd_toStartOf="@id/tv_net_small"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_net_small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="网前小球"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_net_small_point"
+                app:layout_constraintEnd_toStartOf="@id/tv_2_net_small_point"
+                app:layout_constraintStart_toEndOf="@id/tv_1_net_small_point"
+                app:layout_constraintTop_toTopOf="@id/tv_1_net_small_point" />
+
+            <TextView
+                android:id="@+id/tv_2_net_small_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_net_small_point"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_net_small"
+                app:layout_constraintTop_toTopOf="@id/tv_1_net_small_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_1_net_small"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/hr_2_net_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_1_net_small_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_2_net_small"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/hr_1_net_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hr_1_net_small"
+                app:layout_constraintTop_toTopOf="@id/hr_1_net_small" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_1_fake_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toTopOf="@id/hr_1_fake"
+                app:layout_constraintEnd_toStartOf="@id/tv_fake"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_fake"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="变速球"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_fake_point"
+                app:layout_constraintEnd_toStartOf="@id/tv_2_fake_point"
+                app:layout_constraintStart_toEndOf="@id/tv_1_fake_point"
+                app:layout_constraintTop_toTopOf="@id/tv_1_fake_point" />
+
+            <TextView
+                android:id="@+id/tv_2_fake_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_fake_point"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_fake"
+                app:layout_constraintTop_toTopOf="@id/tv_1_fake_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_1_fake"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/hr_2_fake"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_1_fake_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_2_fake"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/hr_1_fake"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hr_1_fake"
+                app:layout_constraintTop_toTopOf="@id/hr_1_fake" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_1_va_speed_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toTopOf="@id/hr_1_va_speed"
+                app:layout_constraintEnd_toStartOf="@id/tv_va_speed"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_va_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="变速球"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_va_speed_point"
+                app:layout_constraintEnd_toStartOf="@id/tv_2_va_speed_point"
+                app:layout_constraintStart_toEndOf="@id/tv_1_va_speed_point"
+                app:layout_constraintTop_toTopOf="@id/tv_1_va_speed_point" />
+
+            <TextView
+                android:id="@+id/tv_2_va_speed_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_va_speed_point"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_va_speed"
+                app:layout_constraintTop_toTopOf="@id/tv_1_va_speed_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_1_va_speed"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/hr_2_va_speed"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_1_va_speed_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_2_va_speed"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/hr_1_va_speed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hr_1_va_speed"
+                app:layout_constraintTop_toTopOf="@id/hr_1_va_speed" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_1_va_angle_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toTopOf="@id/hr_1_va_angle"
+                app:layout_constraintEnd_toStartOf="@id/tv_va_angle"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_va_angle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="角度变化"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_va_angle_point"
+                app:layout_constraintEnd_toStartOf="@id/tv_2_va_angle_point"
+                app:layout_constraintStart_toEndOf="@id/tv_1_va_angle_point"
+                app:layout_constraintTop_toTopOf="@id/tv_1_va_angle_point" />
+
+            <TextView
+                android:id="@+id/tv_2_va_angle_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="20"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_1_va_angle_point"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_va_angle"
+                app:layout_constraintTop_toTopOf="@id/tv_1_va_angle_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_1_va_angle"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginEnd="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/hr_2_va_angle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_1_va_angle_point" />
+
+            <com.yj.badmintonplayer.ui.HRectView
+                android:id="@+id/hr_2_va_angle"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="1dp"
+                app:layout_constraintBottom_toBottomOf="@id/hr_1_va_angle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/hr_1_va_angle"
+                app:layout_constraintTop_toTopOf="@id/hr_1_va_angle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

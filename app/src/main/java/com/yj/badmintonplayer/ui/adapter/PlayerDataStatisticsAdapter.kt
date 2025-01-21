@@ -15,6 +15,8 @@ import com.yj.badmintonplayer.ui.utils.SizeUtils
 class PlayerDataStatisticsAdapter(val dataList: List<PlayerBean>) :
     RecyclerView.Adapter<PlayerDataStatisticsAdapter.ViewHolder>() {
 
+    var showScoreMethod = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.adapter_player_data_statistics, parent, false)
@@ -36,26 +38,41 @@ class PlayerDataStatisticsAdapter(val dataList: List<PlayerBean>) :
         holder.mBinding.tvLosePoint.text = "失分:" + player.losePoint
         holder.mBinding.tvNetVictoryScore.text =
             "净胜分:" + (player.winPoint - player.losePoint)
+        holder.mBinding.tvAttachPoint.text = "进攻得分:" + player.attachPoint
+        holder.mBinding.tvAttachIndex.text = "进攻占比:" + player.getAttachIndex()
+        holder.mBinding.tvDefendPoint.text = "防守得分:" + player.defendPoint
+        holder.mBinding.tvDefendIndex.text = "防守占比:" + player.getDefendIndex()
+        holder.mBinding.tvControlPoint.text = "控制得分:" + player.controlPoint
+        holder.mBinding.tvControlIndex.text = "控制占比:" + player.getControlIndex()
+        holder.mBinding.llScoreMethod.visibility = if (showScoreMethod) View.VISIBLE else View.GONE
 
 //        比分数据
         val adapter = PlayerBattleAdapter(player.games, player.id)
+        adapter.setShowScoreMethodAndRefresh(showScoreMethod)
         holder.mBinding.rvGame.layoutManager = GridLayoutManager(holder.mBinding.rvGame.context, 3)
-        holder.mBinding.rvGame.addItemDecoration(object : RecyclerView.ItemDecoration() {
-            override fun getItemOffsets(
-                outRect: Rect,
-                view: View,
-                parent: RecyclerView,
-                state: RecyclerView.State
-            ) {
-                outRect.set(
-                    SizeUtils.dp2px(5f),
-                    SizeUtils.dp2px(5f),
-                    SizeUtils.dp2px(5f),
-                    SizeUtils.dp2px(5f)
-                )
-            }
-        })
+        if (holder.mBinding.rvGame.itemDecorationCount  == 0) {
+            holder.mBinding.rvGame.addItemDecoration(object : RecyclerView.ItemDecoration() {
+                override fun getItemOffsets(
+                    outRect: Rect,
+                    view: View,
+                    parent: RecyclerView,
+                    state: RecyclerView.State
+                ) {
+                    outRect.set(
+                        SizeUtils.dp2px(5f),
+                        SizeUtils.dp2px(5f),
+                        SizeUtils.dp2px(5f),
+                        SizeUtils.dp2px(5f)
+                    )
+                }
+            })
+        }
         holder.mBinding.rvGame.adapter = adapter
+    }
+
+    fun setShowScoreMethodAndRefresh(checked: Boolean) {
+        showScoreMethod = checked
+        notifyDataSetChanged()
     }
 
 

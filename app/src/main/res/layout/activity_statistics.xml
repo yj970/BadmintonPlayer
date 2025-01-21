@@ -18,6 +18,20 @@
             android:padding="5dp"
             android:src="@mipmap/icon_close" />
 
+        <Switch
+            android:id="@+id/st_score_method"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="70dp"
+            android:switchPadding="5dp"
+            android:text="技术统计"
+            android:textColor="#333"
+            android:textColorHighlight="@color/color_main"
+            android:textSize="13sp"
+            android:thumb="@drawable/select_thumb"
+            android:trackTint="@color/color_main_transparent" />
+
 
         <ImageView
             android:id="@+id/tv_download"

@@ -24,6 +24,7 @@ import com.yj.badmintonplayer.ui.adapter.RankingAdapter
 import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.bean.PlayerBattleBean
 import com.yj.badmintonplayer.ui.bean.PlayerBean
+import com.yj.badmintonplayer.ui.bean.ScoreMethod
 import com.yj.badmintonplayer.ui.utils.SizeUtils
 import java.io.OutputStream
 import java.time.LocalDate
@@ -33,6 +34,7 @@ import java.util.UUID
 class StatisticsActivity : FragmentActivity() {
     lateinit var mBinding: ActivityStatisticsBinding
     lateinit var game: GameBean
+    lateinit var playerDataStatisticsAdapter:PlayerDataStatisticsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,6 +96,13 @@ class StatisticsActivity : FragmentActivity() {
             // 比赛
             player1!!.games.add(game)
             player2!!.games.add(game)
+            // 技术统计
+            player1!!.attachPoint =game.id1ScoreMethod.getAttachPoint()
+            player1!!.defendPoint = game.id1ScoreMethod.getDefendPoint()
+            player1!!.controlPoint = game.id1ScoreMethod.getControlPoint()
+            player2!!.attachPoint = game.id2ScoreMethod.getAttachPoint()
+            player2!!.defendPoint = game.id2ScoreMethod.getDefendPoint()
+            player2!!.controlPoint = game.id2ScoreMethod.getControlPoint()
         }
         // 1、胜场降序 2、总得分降序 3、总失分升序
         players.sortWith(
@@ -133,7 +142,7 @@ class StatisticsActivity : FragmentActivity() {
         mBinding.rvRanking.adapter = adapetr
 
         // 展示UI
-        val adapetr2 = PlayerDataStatisticsAdapter(players)
+        playerDataStatisticsAdapter = PlayerDataStatisticsAdapter(players)
         mBinding.rvData.layoutManager = LinearLayoutManager(this)
         mBinding.rvData.addItemDecoration(object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(
@@ -145,7 +154,7 @@ class StatisticsActivity : FragmentActivity() {
                 outRect.set(0, SizeUtils.dp2px(5f), 0, SizeUtils.dp2px(20f))
             }
         })
-        mBinding.rvData.adapter = adapetr2
+        mBinding.rvData.adapter = playerDataStatisticsAdapter
     }
 
     // 获取选手
@@ -172,6 +181,11 @@ class StatisticsActivity : FragmentActivity() {
     private fun initListener() {
         mBinding.tvClose.setOnClickListener { finish() }
         mBinding.tvDownload.setOnClickListener { save2Phone() }
+        mBinding.stScoreMethod.setOnCheckedChangeListener { buttonView, isChecked ->
+            run {
+                playerDataStatisticsAdapter.setShowScoreMethodAndRefresh(isChecked)
+            }
+        }
     }
 
     // 保存图片到手机
