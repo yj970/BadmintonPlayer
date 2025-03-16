@@ -34,6 +34,7 @@
 
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nsv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
@@ -96,6 +97,66 @@
                         android:checked="true"
                         android:text="单打轮转" />
                 </RadioGroup>
+
+            </LinearLayout>
+            <!--   默认胜出得分-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="得分赛制："
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <RadioGroup
+                    android:orientation="horizontal"
+                    android:id="@+id/rg_win"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical">
+
+                    <RadioButton
+                        android:id="@+id/rb_win_15"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/color_main"
+                        android:checked="true"
+                        android:text="15分" />
+
+                    <RadioButton
+                        android:id="@+id/rb_win_21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/color_main"
+                        android:text="21分" />
+                </RadioGroup>
+
+            </LinearLayout>
+            <!--   开局自动保存对战表截图-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="开局保存对战表截图："
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <CheckBox
+                    android:buttonTint="@color/color_main"
+                    android:checked="true"
+                    android:id="@+id/cb_save_battle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
             <!--    循环轮数-->

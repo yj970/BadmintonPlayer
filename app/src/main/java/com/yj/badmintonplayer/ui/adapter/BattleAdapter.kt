@@ -14,6 +14,7 @@ import com.yj.badmintonplayer.ui.utils.DataLock
 class BattleAdapter(var dataList: List<PlayerBattleBean>) :
     RecyclerView.Adapter<BattleAdapter.ViewHolder>() {
     lateinit var mPointChangeConfirmListener: IPointChangeConfirmListener
+    var defaultWinPoint: Int = 0;
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.adapter_battle, parent, false)
@@ -94,7 +95,7 @@ class BattleAdapter(var dataList: List<PlayerBattleBean>) :
 
     // 获取默认展示得分
     private fun getNumberPickerDefaultPoint(point: Int): Int {
-        return if (point == 0) 21 else point
+        return if (point == 0) defaultWinPoint else point
     }
 
 

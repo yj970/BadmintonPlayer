@@ -17,7 +17,8 @@ class GameBean(
     val roomName: String,
     val createTime: Long,
     @Convert(converter = PlayerBattlesBeansConverter::class, dbType = String::class)
-    var playerBattleBeans: ArrayList<PlayerBattleBean>
+    var playerBattleBeans: ArrayList<PlayerBattleBean>,
+    val winPoint:Int // 默认获胜的分数
 ) : Parcelable, Cloneable {
 
 
@@ -26,7 +27,8 @@ class GameBean(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readLong(),
-        parcel.createTypedArrayList(PlayerBattleBean.CREATOR) as ArrayList<PlayerBattleBean>
+        parcel.createTypedArrayList(PlayerBattleBean.CREATOR) as ArrayList<PlayerBattleBean>,
+        parcel.readInt(),
     )
 
 
@@ -36,6 +38,7 @@ class GameBean(
         parcel.writeString(roomName)
         parcel.writeLong(createTime)
         parcel.writeTypedList(playerBattleBeans)
+        parcel.writeInt(winPoint)
     }
 
     override fun describeContents(): Int {

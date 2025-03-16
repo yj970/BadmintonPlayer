@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:5894579104793660467",
-      "lastPropertyId": "4:599752426420012747",
+      "lastPropertyId": "7:7451562551349680305",
       "name": "GameBean",
       "properties": [
         {
@@ -28,6 +28,21 @@
           "id": "4:599752426420012747",
           "name": "playerBattleBeans",
           "type": 9
+        },
+        {
+          "id": "5:1943378462328676317",
+          "name": "gameId",
+          "type": 9
+        },
+        {
+          "id": "6:7970337433116428297",
+          "name": "winPoint",
+          "type": 5
+        },
+        {
+          "id": "7:7451562551349680305",
+          "name": "autoSaveBattlePic",
+          "type": 1
         }
       ],
       "relations": []

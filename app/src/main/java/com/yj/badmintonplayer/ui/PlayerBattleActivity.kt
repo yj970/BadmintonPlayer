@@ -1,10 +1,15 @@
 package com.yj.badmintonplayer.ui
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,13 +20,20 @@ import com.yj.badmintonplayer.ui.bean.BroadcastBean
 import com.yj.badmintonplayer.ui.bean.GameBean
 import com.yj.badmintonplayer.ui.db.ObjectBox
 import com.yj.badmintonplayer.ui.dialog.CommonDialog
+import com.yj.badmintonplayer.ui.dialog.LoadingDialog
 import com.yj.badmintonplayer.ui.dialog.TipDialog
 import com.yj.badmintonplayer.ui.utils.DataLock
 import com.yj.badmintonplayer.ui.utils.SizeUtils
 import com.yj.badmintonplayer.ui.utils.UDPUtil
+import com.yj.badmintonplayer.ui.utils.Utils
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.InetAddress
 import java.util.Timer
 import java.util.TimerTask
+import java.util.UUID
 
 class PlayerBattleActivity : FragmentActivity() {
     lateinit var mBinding: ActivityBattleBinding
@@ -243,6 +255,8 @@ class PlayerBattleActivity : FragmentActivity() {
         initPlayerBattleListUI()
         // 房间相关UI
         initRoomUI()
+        // 自动保存对战截图
+        autoSaveBattlePicIfNeed()
     }
 
     private fun initRoomUI() {
@@ -252,6 +266,7 @@ class PlayerBattleActivity : FragmentActivity() {
 
     private fun initPlayerBattleListUI() {
         battleAdapter = BattleAdapter(game.playerBattleBeans)
+        battleAdapter.defaultWinPoint = game.winPoint
         battleAdapter.mPointChangeConfirmListener =
             object : BattleAdapter.IPointChangeConfirmListener {
                 override fun onPointChangeConfirm() {
@@ -299,4 +314,31 @@ class PlayerBattleActivity : FragmentActivity() {
         stopReceiverData()
         udpUtil.release()
     }
+
+    // 保存图片到手机
+    private fun autoSaveBattlePicIfNeed() {
+        mBinding.rvBattle.post(Runnable {
+            val autoSaveBattlePic = intent.getBooleanExtra("autoSaveBattlePic", false)
+            if (!autoSaveBattlePic) {
+                return@Runnable
+            }
+            val loadingDialog = LoadingDialog(this);
+            loadingDialog.show()
+            // 启动一个协程
+            GlobalScope.launch(Dispatchers.IO) {
+                // 在 IO 线程中执行耗时操作
+                val bitmap = Utils.getRecyclerViewFullScreenshot(mBinding.rvBattle)
+                val fileName = UUID.randomUUID().toString()
+                val save = Utils.saveBitmapToGallery(this@PlayerBattleActivity, bitmap, fileName)
+                // 切换到主线程
+                withContext(Dispatchers.Main) {
+                    // 在主线程中更新 UI
+                    val msg = if (save) "保存成功" else "保存失败"
+                    Toast.makeText(this@PlayerBattleActivity, msg, Toast.LENGTH_SHORT).show()
+                    loadingDialog.dismiss()
+                }
+            }
+        })
+    }
+
 }

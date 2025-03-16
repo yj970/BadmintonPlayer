@@ -3,7 +3,9 @@ package com.yj.badmintonplayer.ui.dialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.yj.badmintonplayer.R
 import com.yj.badmintonplayer.databinding.DialogCreateRoomBinding
 import com.yj.badmintonplayer.ui.adapter.CreateRoomPlayerAdapter
 import com.yj.badmintonplayer.ui.bean.GameBean
@@ -117,9 +119,24 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
                 UUID.randomUUID().toString(),
                 getRoomName(),
                 System.currentTimeMillis(),
-                finalList
-            )
+                finalList,
+                getDefaultWinPoint()
+            ),getAutoSaveBattlePic()
         )
+    }
+
+    // 获取获胜的默认分数
+    private fun getDefaultWinPoint(): Int {
+        when (mBinding.rgWin.checkedRadioButtonId) {
+            R.id.rb_win_15 -> return 15
+            R.id.rb_win_21 -> return 21
+            else -> return 21
+        }
+    }
+
+    // 开局保存对战表截图
+    private fun getAutoSaveBattlePic(): Boolean {
+        return mBinding.cbSaveBattle.isChecked
     }
 
     // 获取房名
@@ -212,6 +229,10 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
         val nickName = count.toString() + "号"
         players.add(PlayerBean(id, nickName))
         adapetr.notifyDataSetChanged()
+        // 滑动到最下方，方便使用
+        mBinding.ivAddPlayer.post({
+            mBinding.nsv.fullScroll(View.FOCUS_DOWN)
+        })
     }
 
     private fun initView() {
@@ -229,7 +250,7 @@ class CreateRoomDialog(context: Context, res: Int) : Dialog(context, res) {
     }
 
     interface IConfirmListener {
-        fun onConfirm(gameBattle: GameBean)
+        fun onConfirm(gameBattle: GameBean, autoSaveBattlePic:Boolean)
     }
 
 }

@@ -74,7 +74,7 @@ class HomeFragment : Fragment() {
         val dialog = SearchRoomDialog(activity!!)
         dialog.mClickJoinListener = object : SearchRoomDialog.IClickJoinListener {
             override fun onClickJoinListener(gameBean: GameBean) {
-                jump2Battle(gameBean, false)
+                jump2Battle(gameBean, false, false)
             }
         }
         dialog.show()
@@ -84,17 +84,18 @@ class HomeFragment : Fragment() {
         val dialog =
             CreateRoomDialog(activity!!, androidx.appcompat.R.style.Theme_AppCompat_Light_Dialog)
         dialog.iConfirmListener = object : CreateRoomDialog.IConfirmListener {
-            override fun onConfirm(gameBean: GameBean) {
-                jump2Battle(gameBean, true)
+            override fun onConfirm(gameBean: GameBean, autoSaveBattlePic: Boolean) {
+                jump2Battle(gameBean, true, autoSaveBattlePic)
             }
         }
         dialog.show()
     }
 
-    private fun jump2Battle(gameBean: GameBean, isRoomer: Boolean) {
+    private fun jump2Battle(gameBean: GameBean, isRoomer: Boolean, autoSaveBattlePic: Boolean) {
         val intent = Intent(activity, PlayerBattleActivity::class.java)
         intent.putExtra("gameBean", gameBean)
         intent.putExtra("isRoomer", isRoomer)
+        intent.putExtra("autoSaveBattlePic", autoSaveBattlePic)
         activity!!.startActivity(intent)
     }
 

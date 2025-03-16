@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:5894579104793660467",
-      "lastPropertyId": "5:1943378462328676317",
+      "lastPropertyId": "7:7451562551349680305",
       "name": "GameBean",
       "properties": [
         {
@@ -33,6 +33,11 @@
           "id": "5:1943378462328676317",
           "name": "gameId",
           "type": 9
+        },
+        {
+          "id": "6:7970337433116428297",
+          "name": "winPoint",
+          "type": 5
         }
       ],
       "relations": []
@@ -46,7 +51,9 @@
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    7451562551349680305
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

@@ -12,8 +12,8 @@ android {
         applicationId = "com.yj.badmintonplayer"
         minSdk = 29
         targetSdk = 34
-        versionCode = 8
-        versionName = "3.0.0"
+        versionCode = 9
+        versionName = "3.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -43,7 +43,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.7"
     }
     packaging {
         resources {
